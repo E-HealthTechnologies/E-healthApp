@@ -5,9 +5,9 @@ Ehealth is a mobile application designed to provide a convenient and efficient w
 ## Features
 •Real-time monitoring of vital signs.
 
-Convenient and user-friendly mobile application.
+•Convenient and user-friendly mobile application.
 
-Secure login for patients and doctors.
+•Secure login for patients and doctors.
 
 •Firebase database for storing patient data.
 
