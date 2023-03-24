@@ -1,16 +1,21 @@
-# e_health
+# E_health
 
-Home hospitalization system App
+Ehealth is a mobile application designed to provide a convenient and efficient way to monitor patients remotely. The system consists of a hardware box containing several sensors that are capable of sensing vital data such as glucose levels, temperature, blood pressure, and heartbeat. This data is then transmitted to the mobile application via TCP and displayed in real-time.
 
-## Getting Started
+## Features
+•Real-time monitoring of vital signs.
 
-This project is a starting point for a Flutter application.
+•Connects to a hardware box with several sensors to measure vital data
 
-A few resources to get you started if this is your first Flutter project:
+•Sends data to the app using TCP and stores it in a Firebase database
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+•Convenient and user-friendly mobile application.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+•Secure login for patients and doctors.
+
+•Remote monitoring by doctors for improved patient care.
+
+•Reduces the need for hospital visits.
+
+## Usage
+To use the Home Hospitalization System, simply log in to the app using your credentials. If you are a patient, you can use the hardware box to measure your vital signs, and the data will be automatically sent to the app for review. If you are a doctor, you can access the patient's data through the app and remotely monitor their health status. The app provides a platform for the doctor to make informed decisions about the patient's treatment plan and adjust it as needed.
