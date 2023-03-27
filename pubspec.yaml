@@ -46,7 +46,8 @@ dev_dependencies:
   font_awesome_flutter: ^10.4.0
   flutter_svg: ^2.0.4
   custom_check_box: ^0.0.4
-
+  flutter_screenutil: ^5.7.0
+  responsive_framework: ^0.2.0
 
 flutter:
 
