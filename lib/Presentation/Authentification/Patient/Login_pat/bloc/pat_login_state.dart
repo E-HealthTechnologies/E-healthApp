@@ -18,7 +18,7 @@ class PatLoginState extends Equatable {
     bool? rememberMe,
     int? page,
   }) {
-    return PatLoginState(
+    return PatLoginState(//nothing
       email: email ?? this.email,
       password: password ?? this.password,
       rememberMe: rememberMe ?? this.rememberMe,

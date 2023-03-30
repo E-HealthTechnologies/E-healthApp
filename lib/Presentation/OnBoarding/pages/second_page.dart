@@ -27,7 +27,7 @@ class SecondPage extends StatelessWidget {
           SizedBox(height: 20 ),
           Text(
             'Share text',
-            style: TextStyle(
+            style: TextStyle(//nothing
                 fontWeight: FontWeight.w400,
                 fontSize: 17,
                 color: Colors.black45),

@@ -15,7 +15,7 @@ class PatChangePageEvent extends PatSignUpEvent {
   List<Object?> get props => [];
 }
 
-class PatSignEmailEvent extends PatSignUpEvent {
+class PatSignEmailEvent extends PatSignUpEvent {//nothing
   PatSignEmailEvent({required this.email});
   final String email;
   @override

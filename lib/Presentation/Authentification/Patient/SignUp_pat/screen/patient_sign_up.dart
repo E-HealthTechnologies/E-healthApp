@@ -1,4 +1,3 @@
-import 'package:e_health/Presentation/Authentification/Patient/Login_pat/screen/pat_login_screen.dart';
 import 'package:e_health/Presentation/Authentification/Patient/SignUp_pat/pages/choose_doctor_screen.dart';
 import 'package:e_health/Presentation/Authentification/Patient/SignUp_pat/pages/email_screen.dart';
 import 'package:e_health/Presentation/Authentification/Patient/SignUp_pat/bloc/path_auth_bloc.dart';
@@ -15,7 +14,7 @@ class PathAuthScreen extends StatefulWidget {
 
 class _PathAuthScreenState extends State<PathAuthScreen> {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {//nothing
     return BlocProvider.value(
       value: PatSignUpBloc(),
       // create: (context) => PathAuthBloc(),

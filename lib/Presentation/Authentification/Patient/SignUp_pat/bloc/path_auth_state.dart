@@ -43,7 +43,7 @@ class PatSignUpState extends Equatable {
       phone: phone ?? this.phone,
     );
   }
-
+//nothing
   @override
   List<Object?> get props => [
         email,

@@ -19,7 +19,7 @@ import 'package:go_router/go_router.dart';
 // );
 
 
-class Routes {
+class Routes {//nothing
   static Map<String, WidgetBuilder> getRoutes(RouteSettings setting) => {
         '/': (context) => LoadingScreen(),
         '/onBoard': ((context) => OnBoardingScreen()),

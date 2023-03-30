@@ -23,6 +23,7 @@ class BottomText extends StatelessWidget {
             color: Colors.white,
             shadows: <Shadow>[
               Shadow(
+
                 offset: Offset(0.0, 0.0),
                 blurRadius: 15,
                 color: Color.fromARGB(255, 0, 0, 0),

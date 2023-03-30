@@ -117,7 +117,7 @@ class _EmailScreenState extends State<EmailScreen> {
                               hide: true,
                             ),
                           ),
-                          BlueButton(
+                          BlueButton(//nothing
                             title: 'Sign Up',
                             onPressed: () {
                               // log('message');
