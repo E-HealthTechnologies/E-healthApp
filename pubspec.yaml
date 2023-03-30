@@ -48,6 +48,9 @@ dev_dependencies:
   custom_check_box: ^0.0.4
   flutter_screenutil: ^5.7.0
   responsive_framework: ^0.2.0
+  flutter_bloc: ^8.0.1
+  equatable: ^2.0.5
+
 
 flutter:
 

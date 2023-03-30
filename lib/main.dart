@@ -1,4 +1,5 @@
 import 'package:e_health/Presentation/Authentification/Patient/Login_pat/screen/pat_login_screen.dart';
+import 'package:e_health/Presentation/Authentification/Patient/SignUp_pat/screen/patient_sign_up.dart';
 import 'package:e_health/Presentation/routing/routes.dart';
 import 'package:e_health/Presentation/routing/transition_page_route_builder.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
           title: 'Ehealth',
           debugShowCheckedModeBanner: false,
           home: PatLoginScreen(),
+          // home: PathAuthScreen(),
           //initialRoute: '/',
           onGenerateRoute: (settings) {
             final routes = Routes.getRoutes(settings);

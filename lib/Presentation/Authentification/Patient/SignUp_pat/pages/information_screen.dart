@@ -4,10 +4,12 @@ import 'package:e_health/Presentation/Authentification/Commun/widgets/blue_butto
 import 'package:e_health/Presentation/Authentification/Commun/widgets/buttom_text.dart';
 import 'package:e_health/Presentation/Authentification/Commun/widgets/costume_drop_down_menu.dart';
 import 'package:e_health/Presentation/Authentification/Commun/widgets/custome_text_field.dart';
+import 'package:e_health/Presentation/Authentification/Patient/SignUp_pat/bloc/path_auth_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class InformationScreen extends StatefulWidget {
   const InformationScreen({Key? key}) : super(key: key);
@@ -71,7 +73,8 @@ class _InformationScreenState extends State<InformationScreen> {
                               children: [
                                 GestureDetector(
                                   onTap: () {
-                                    Navigator.pop(context);
+                                    BlocProvider.of<PatSignUpBloc>(context)
+                                        .add(PatChangePageEvent(page: 0));
                                   },
                                   child: Icon(Icons.arrow_back),
                                 ),
@@ -166,7 +169,9 @@ class _InformationScreenState extends State<InformationScreen> {
                           BlueButton(
                             title: 'Next',
                             onPressed: () {
-                              log('message');
+                              // log('message');
+                              BlocProvider.of<PatSignUpBloc>(context)
+                                  .add(PatChangePageEvent(page: 2));
                             },
                           ),
                         ],

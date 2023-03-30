@@ -26,7 +26,7 @@ class BlueButton extends StatelessWidget {
         child: Text(
           title,
           style: TextStyle(
-            fontSize: 16.sp,
+            fontSize: 18.sp,
             fontWeight: FontWeight.w600,
             // height: 1.2175 * 1 / 1,
             color: Color(0xffffffff),

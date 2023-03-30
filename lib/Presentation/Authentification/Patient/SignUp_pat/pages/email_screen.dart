@@ -3,19 +3,21 @@ import 'dart:developer';
 import 'package:e_health/Presentation/Authentification/Commun/widgets/blue_button.dart';
 import 'package:e_health/Presentation/Authentification/Commun/widgets/buttom_text.dart';
 import 'package:e_health/Presentation/Authentification/Commun/widgets/custome_text_field.dart';
+import 'package:e_health/Presentation/Authentification/Patient/SignUp_pat/bloc/path_auth_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class PatSignUpScreen extends StatefulWidget {
-  const PatSignUpScreen({Key? key}) : super(key: key);
+class EmailScreen extends StatefulWidget {
+  const EmailScreen();
 
   @override
-  State<PatSignUpScreen> createState() => _PatSignUpScreenState();
+  State<EmailScreen> createState() => _EmailScreenState();
 }
 
-class _PatSignUpScreenState extends State<PatSignUpScreen> {
+class _EmailScreenState extends State<EmailScreen> {
   @override
   Widget build(BuildContext context) {
     double baseWidth = 390;
@@ -115,29 +117,13 @@ class _PatSignUpScreenState extends State<PatSignUpScreen> {
                               hide: true,
                             ),
                           ),
-                          Container(
-                            margin: EdgeInsets.fromLTRB(1, 0, 0, 15),
-                            child: CostumeTextField(
-                              onChanged: (String) {},
-                              hintText: 'Confirm Password',
-                              prefixIcon: Icon(Icons.lock_outline),
-                              suffixIcon: GestureDetector(
-                                onTap: (() {
-                                  log('message');
-                                  //      BlocProvider.of<AuthBloc>(context).add(
-                                  //      PasswordVisibiltyChangeEvent(
-                                  //      !context.read<AuthBloc>().state.passwordVisible));
-                                }),
-                                child: Icon(FontAwesomeIcons.eye),
-                              ),
-                              hide: true,
-                            ),
-                          ),
                           BlueButton(
                             title: 'Sign Up',
                             onPressed: () {
                               // log('message');
-                              Navigator.pushNamed(context, '/pat/signUp/info');
+                              // Navigator.pushNamed(context, '/pat/signUp/info');
+                              BlocProvider.of<PatSignUpBloc>(context)
+                                  .add(PatChangePageEvent(page: 1));
                             },
                           ),
                         ],
