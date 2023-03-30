@@ -1,7 +1,10 @@
+import 'package:e_health/Presentation/Authentification/Patient/Login_pat/screen/pat_login_screen.dart';
+import 'package:e_health/Presentation/Authentification/Patient/SignUp_pat/screen/patient_sign_up.dart';
 import 'package:e_health/Presentation/routing/routes.dart';
 import 'package:e_health/Presentation/routing/transition_page_route_builder.dart';
 import 'package:flutter/material.dart';
-
+import 'package:responsive_framework/responsive_framework.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -11,24 +14,57 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      // theme: ThemeData(
-      //   inputDecorationTheme: const InputDecorationTheme(
-      //     filled: true, //<-- SEE HERE
-      //     // fillColor: Colors.deepPurpleAccent, //<-- SEE HERE
-      //   ),
-      // ),
-      title: 'Ehealth',
-      debugShowCheckedModeBanner: false,
-      initialRoute: '/',
-      onGenerateRoute: (settings) {
-        final routes = Routes.getRoutes(settings);
-        final WidgetBuilder builder = routes[settings.name]!;
-        return FadePageRouteBuilder(
-          builder: builder,
-          settings: settings,
+    return ScreenUtilInit(
+      designSize: const Size(360, 690),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (context , child) {
+        return MaterialApp(
+          builder: (context, widget) => ResponsiveWrapper.builder(
+            BouncingScrollWrapper.builder(context, widget!),
+            breakpoints: [
+              ResponsiveBreakpoint.resize(350, name: MOBILE),
+              ResponsiveBreakpoint.autoScale(600, name: TABLET),
+              ResponsiveBreakpoint.resize(800, name: DESKTOP),
+            ],
+          ),
+          title: 'Ehealth',
+          debugShowCheckedModeBanner: false,
+          home: PatLoginScreen(),
+          // home: PathAuthScreen(),
+          //initialRoute: '/',
+          onGenerateRoute: (settings) {
+            final routes = Routes.getRoutes(settings);
+            final WidgetBuilder builder = routes[settings.name]!;
+            return FadePageRouteBuilder(
+              builder: builder,
+              settings: settings,
+            );
+          },
         );
       },
+      // child: MaterialApp(
+      //   builder: (context, widget) => ResponsiveWrapper.builder(
+      //     BouncingScrollWrapper.builder(context, widget!),
+      //     breakpoints: [
+      //       ResponsiveBreakpoint.resize(350, name: MOBILE),
+      //       ResponsiveBreakpoint.autoScale(600, name: TABLET),
+      //       ResponsiveBreakpoint.resize(800, name: DESKTOP),
+      //     ],
+      //   ),
+      //   title: 'Ehealth',
+      //   debugShowCheckedModeBanner: false,
+      //   home: PatLoginScreen(),
+      //   //initialRoute: '/',
+      //   onGenerateRoute: (settings) {
+      //     final routes = Routes.getRoutes(settings);
+      //     final WidgetBuilder builder = routes[settings.name]!;
+      //     return FadePageRouteBuilder(
+      //       builder: builder,
+      //       settings: settings,
+      //     );
+      //   },
+      // ),
     );
   }
 }

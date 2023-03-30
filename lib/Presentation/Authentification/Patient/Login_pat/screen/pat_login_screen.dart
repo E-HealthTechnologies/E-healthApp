@@ -1,11 +1,15 @@
 import 'dart:developer';
 
+import 'package:e_health/Presentation/Authentification/Commun/widgets/blue_button.dart';
+import 'package:e_health/Presentation/Authentification/Commun/widgets/buttom_text.dart';
+import 'package:e_health/Presentation/Authentification/Commun/widgets/custome_text_field.dart';
+import 'package:e_health/Presentation/Authentification/Patient/Login_pat/bloc/pat_login_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:custom_check_box/custom_check_box.dart';
+import 'package:responsive_framework/responsive_framework.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PatLoginScreen extends StatefulWidget {
   const PatLoginScreen({Key? key}) : super(key: key);
@@ -20,214 +24,361 @@ class _PatLoginScreenState extends State<PatLoginScreen> {
   Widget build(BuildContext context) {
     double baseWidth = 390;
     double fem = MediaQuery.of(context).size.width / baseWidth;
-    double ffem = fem * 0.97;
-    final ImageIcon icon;
+    double femm = 1 * 0.97;
 
     return Scaffold(
-      body: Container(
-        padding: EdgeInsets.fromLTRB(28 * fem, 131 * fem, 29 * fem, 29 * fem),
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: Color(0xfff5f5f5),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  margin:
-                      EdgeInsets.fromLTRB(0 * fem, 0 * fem, 0 * fem, 38 * fem),
-                  child: Text(
-                    'LOGO',
-                    style: TextStyle(
-                      fontSize: 80 * ffem,
-                      fontWeight: FontWeight.w700,
-                      height: 1.2175 * ffem / fem,
-                      color: Color(0xff3f51b5),
+      body: BlocProvider(
+        create: (context) => PatLoginBloc(),
+        child: BlocListener<PatLoginBloc, PatLoginState>(
+          listener: (context, state) {},
+          child: BlocBuilder<PatLoginBloc, PatLoginState>(
+            builder: (context, state) {
+              return SingleChildScrollView(
+                child: Container(
+                  height: MediaQuery.of(context).size.height,
+                  // padding: EdgeInsets.fromLTRB(28 * 1, 131 * 1, 29 * 1, 29 * 1),
+                  decoration: BoxDecoration(
+                    color: Color(0xfff5f5f5),
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/background.jpg'),
+                      fit: BoxFit.cover,
                     ),
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.fromLTRB(
-                      53 * fem, 0 * fem, 52 * fem, 41 * fem),
-                  height: 30 * fem,
-                  child: Text(
-                    'Log in to Account',
-                    style: TextStyle(
-                      fontSize: 25 * ffem,
-                      fontWeight: FontWeight.w600,
-                      height: 1.2175 * ffem / fem,
-                      color: Color(0xff000000),
-                    ),
-                  ),
-                ),
-                CostumeTextField(
-
-                  fem: fem,
-                  hintText: 'Email',
-                  prefixIcon: Icon(FontAwesomeIcons.envelope),
-                ),
-                SizedBox(height: 15 * fem),
-                CostumeTextField(
-                  fem: fem,
-                  hintText: 'Password',
-                  prefixIcon: Icon(Icons.lock_outline),
-                  password: GestureDetector(
-                    onTap: (() {
-                      log('message');
-                      //      BlocProvider.of<AuthBloc>(context).add(
-                      //      PasswordVisibiltyChangeEvent(
-                      //      !context.read<AuthBloc>().state.passwordVisible));
-                    }),
-                    child: Icon(FontAwesomeIcons.eye),
-                  ),
-                  hide: true,
-                ),
-                SizedBox(height: 2 * fem),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(width: 7 * fem),
-                    Checkbox(
-                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      visualDensity:
-                          VisualDensity(horizontal: -4, vertical: -4),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5.0 * fem),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      ResponsiveWrapper.of(context).isLargerThan(TABLET)
+                          ? Expanded(
+                              child: Container(
+                                height: MediaQuery.of(context).size.height,
+                                color: Colors.blue,
+                                child: Center(
+                                  child: Text(
+                                    'Welcome to Ehealth',
+                                    style: TextStyle(
+                                      fontSize: 60.sp,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )
+                          : Container(),
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(
+                              28 * 1, 131 * 1, 29 * 1, 29 * 1),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'LOGO',
+                                    style: TextStyle(
+                                      fontSize: 80.sp,
+                                      fontWeight: FontWeight.w700,
+                                      color: Color(0xff3f51b5),
+                                    ),
+                                  ),
+                                  SizedBox(height: 40 * 1),
+                                  Text(
+                                    'Log in to Account',
+                                    style: TextStyle(
+                                      fontSize: 25.sp,
+                                      fontWeight: FontWeight.w600,
+                                      color: Color(0xff000000),
+                                    ),
+                                  ),
+                                  SizedBox(height: 40.sp),
+                                  CostumeTextField(
+                                    onChanged: (String) {
+                                      BlocProvider.of<PatLoginBloc>(context)
+                                          .add(PatEmailEvent(email: String));
+                                    },
+                                    hintText: 'Email',
+                                    prefixIcon: Icon(FontAwesomeIcons.envelope),
+                                  ),
+                                  SizedBox(height: 15.sp),
+                                  CostumeTextField(
+                                    onChanged: (String) {
+                                      BlocProvider.of<PatLoginBloc>(context)
+                                          .add(PatPasswordEvent(password: String));
+                                    },
+                                    hintText: 'Password',
+                                    prefixIcon: Icon(Icons.lock_outline),
+                                    suffixIcon: GestureDetector(
+                                      onTap: (() {
+                                        log(state.email);
+                                      }),
+                                      child: Icon(FontAwesomeIcons.eye),
+                                    ),
+                                    hide: true,
+                                  ),
+                                  SizedBox(height: 2.sp),
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      SizedBox(width: 7.sp),
+                                      Checkbox(
+                                        materialTapTargetSize:
+                                            MaterialTapTargetSize.shrinkWrap,
+                                        visualDensity: VisualDensity(
+                                            horizontal: -4, vertical: -4),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(4.sp),
+                                        ),
+                                        side:
+                                            MaterialStateBorderSide.resolveWith(
+                                          (states) => BorderSide(
+                                              width: 2.0.sp,
+                                              color: Color.fromARGB(
+                                                  100, 33, 150, 243)),
+                                        ),
+                                        checkColor: Colors.white,
+                                        value: state.rememberMe,
+                                        onChanged: (bool? value) {
+                                          BlocProvider.of<PatLoginBloc>(context)
+                                              .add(PatRememberMeEvent(remember: value));
+                                        },
+                                      ),
+                                      SizedBox(width: 5.sp),
+                                      Text(
+                                        'Remember me',
+                                        style: TextStyle(
+                                          fontSize: 12.sp,
+                                          fontWeight: FontWeight.w400,
+                                          color: Color(0xff000000),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 20.sp),
+                                  BlueButton(
+                                    title: 'Sign In',
+                                    onPressed: () {
+                                      log('message');
+                                    },
+                                  ),
+                                ],
+                              ),
+                              BottomText(
+                                text1: 'Don’t have an account? ',
+                                text2: 'Sign Up',
+                                onPressed: () {
+                                  Navigator.pushReplacementNamed(
+                                      context, '/pat/signUp');
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
-                      side: MaterialStateBorderSide.resolveWith(
-                        (states) => BorderSide(
-                            width: 2.0,
-                            color: Color.fromARGB(100, 33, 150, 243)),
-                      ),
-                      checkColor: Colors.white,
-                      value: isChecked,
-                      onChanged: (bool? value) {
-                        setState(() {
-                          isChecked = value!;
-                        });
-                      },
-                    ),
-                    SizedBox(width: 5 * fem),
-                    Text(
-                      'Remember me',
-                      style: TextStyle(
-                        fontSize: 13 * ffem,
-                        fontWeight: FontWeight.w400,
-                        height: 1.2175 * ffem / fem,
-                        color: Color(0xff000000),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 20 * fem),
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xff3f51b5),
-                    minimumSize: Size(330 * fem, 50 * fem),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50 * fem),
-                    ),
-                  ),
-                  child: Center(
-                    child: Text(
-                      'Sign in',
-                      style: TextStyle(
-                        fontSize: 16 * ffem,
-                        fontWeight: FontWeight.w600,
-                        height: 1.2175 * ffem / fem,
-                        color: Color(0xffffffff),
-                      ),
-                    ),
+                    ],
                   ),
                 ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Don’t have an account? ',
-                  style: TextStyle(
-                    fontSize: 20 * ffem,
-                    fontWeight: FontWeight.w400,
-                    height: 1.2175 * ffem / fem,
-                    color: Color(0xffaaaaaa),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, '/pat/signUp');
-                  },
-                  child: Text(
-                    'Sign up',
-                    style: TextStyle(
-                      fontSize: 20 * ffem,
-                      fontWeight: FontWeight.w600,
-                      height: 1.2175 * ffem / fem,
-                      color: Color(0xff2196f3),
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ],
+              );
+            },
+          ),
         ),
       ),
     );
   }
 }
 
-class CostumeTextField extends StatelessWidget {
-  const CostumeTextField({
-    required this.fem,
-    required this.hintText,
-    required this.prefixIcon,
-    this.password = null,
-    this.hide = false,
-  });
 
-  final double fem;
-  final String hintText;
-  final Widget prefixIcon;
-  final Widget? password;
-  final bool hide;
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.fromLTRB(0 * fem, 0 * fem, 3 * fem, 0 * fem),
-      width: 330 * fem,
-      height: 50 * fem,
-      child: TextField(
-        obscureText: hide,
-        keyboardType: TextInputType.emailAddress,
-        style: TextStyle(fontSize: 20),
-        decoration: InputDecoration(
-          filled: true,
-          fillColor: Color.fromARGB(60, 204, 204, 204),
-          disabledBorder: InputBorder.none,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15.0),
-            borderSide: BorderSide.none,
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15.0),
-            borderSide:
-                BorderSide(color: Color.fromARGB(100, 33, 150, 243), width: 2),
-          ),
-          // prefixIcon:
-          //     ImageIcon(AssetImage('assets/icons/email.png')),
-          hintText: hintText,
-          hintStyle:
-              TextStyle(color: Colors.black.withAlpha(100), fontSize: 20),
-          prefixIcon: prefixIcon,
-          suffixIcon: password,
-        ),
-      ),
-    );
-  }
-}
+//
+// import 'dart:developer';
+//
+// import 'package:e_health/Presentation/Authentification/Commun/widgets/blue_button.dart';
+// import 'package:e_health/Presentation/Authentification/Commun/widgets/buttom_text.dart';
+// import 'package:e_health/Presentation/Authentification/Commun/widgets/custome_text_field.dart';
+// import 'package:e_health/Presentation/Authentification/Patient/Login_pat/bloc/pat_login_bloc.dart';
+// import 'package:e_health/Presentation/Authentification/Patient/SignUp_pat/bloc/path_auth_bloc.dart';
+// import 'package:flutter/cupertino.dart';
+// import 'package:flutter/material.dart';
+// import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+// import 'package:responsive_framework/responsive_framework.dart';
+// import 'package:flutter_screenutil/flutter_screenutil.dart';
+// import 'package:flutter_bloc/flutter_bloc.dart';
+//
+// class PatLoginScreen extends StatefulWidget {
+//   const PatLoginScreen({Key? key}) : super(key: key);
+//
+//   @override
+//   State<PatLoginScreen> createState() => _PatLoginScreenState();
+// }
+//
+// class _PatLoginScreenState extends State<PatLoginScreen> {
+//   bool isChecked = false;
+//   @override
+//   Widget build(BuildContext context) {
+//     double baseWidth = 390;
+//     double fem = MediaQuery.of(context).size.width / baseWidth;
+//     double femm = 1 * 0.97;
+//
+//     return Scaffold(
+//       body: SingleChildScrollView(
+//         child: Container(
+//           height: MediaQuery.of(context).size.height,
+//           // padding: EdgeInsets.fromLTRB(28 * 1, 131 * 1, 29 * 1, 29 * 1),
+//           decoration: BoxDecoration(
+//             color: Color(0xfff5f5f5),
+//             image: DecorationImage(
+//               image: AssetImage('assets/images/background.jpg'),
+//               fit: BoxFit.cover,
+//             ),
+//           ),
+//           child: Row(
+//             crossAxisAlignment: CrossAxisAlignment.start,
+//             mainAxisAlignment: MainAxisAlignment.start,
+//             children: [
+//               ResponsiveWrapper.of(context).isLargerThan(TABLET)
+//                   ? Expanded(
+//                 child: Container(
+//                   height: MediaQuery.of(context).size.height,
+//                   color: Colors.blue,
+//                   child: Center(
+//                     child: Text(
+//                       'Welcome to Ehealth',
+//                       style: TextStyle(
+//                         fontSize: 60.sp,
+//                         fontWeight: FontWeight.w600,
+//                         color: Colors.white,
+//                       ),
+//                     ),
+//                   ),
+//                 ),
+//               )
+//                   : Container(),
+//               Expanded(
+//                 child: Padding(
+//                   padding: EdgeInsets.fromLTRB(
+//                       28 * 1, 131 * 1, 29 * 1, 29 * 1),
+//                   child: Column(
+//                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                     crossAxisAlignment: CrossAxisAlignment.center,
+//                     children: [
+//                       Column(
+//                         crossAxisAlignment: CrossAxisAlignment.center,
+//                         children: [
+//                           Text(
+//                             'LOGO',
+//                             style: TextStyle(
+//                               fontSize: 80.sp,
+//                               fontWeight: FontWeight.w700,
+//                               color: Color(0xff3f51b5),
+//                             ),
+//                           ),
+//                           SizedBox(height: 40 * 1),
+//                           Text(
+//                             'Log in to Account',
+//                             style: TextStyle(
+//                               fontSize: 25.sp,
+//                               fontWeight: FontWeight.w600,
+//                               color: Color(0xff000000),
+//                             ),
+//                           ),
+//                           SizedBox(height: 40.sp),
+//                           CostumeTextField(
+//                             onChanged: (String) {
+//                               // BlocProvider.of<PatLoginBloc>(context)
+//                               //     .add(PatEmailEvent(email: String));
+//                             },
+//                             hintText: 'Email',
+//                             prefixIcon: Icon(FontAwesomeIcons.envelope),
+//                           ),
+//                           SizedBox(height: 15.sp),
+//                           CostumeTextField(
+//                             onChanged: (String) {
+//                               // BlocProvider.of<PatLoginBloc>(context)
+//                               //     .add(PatPasswordEvent(password: String));
+//                             },
+//                             hintText: 'Password',
+//                             prefixIcon: Icon(Icons.lock_outline),
+//                             suffixIcon: GestureDetector(
+//                               onTap: (() {
+//                                 // log(state.email);
+//                               }),
+//                               child: Icon(FontAwesomeIcons.eye),
+//                             ),
+//                             hide: true,
+//                           ),
+//                           SizedBox(height: 2.sp),
+//                           Row(
+//                             crossAxisAlignment:
+//                             CrossAxisAlignment.center,
+//                             children: [
+//                               SizedBox(width: 7.sp),
+//                               Checkbox(
+//                                 materialTapTargetSize:
+//                                 MaterialTapTargetSize.shrinkWrap,
+//                                 visualDensity: VisualDensity(
+//                                     horizontal: -4, vertical: -4),
+//                                 shape: RoundedRectangleBorder(
+//                                   borderRadius:
+//                                   BorderRadius.circular(4.sp),
+//                                 ),
+//                                 side:
+//                                 MaterialStateBorderSide.resolveWith(
+//                                       (states) => BorderSide(
+//                                       width: 2.0.sp,
+//                                       color: Color.fromARGB(
+//                                           100, 33, 150, 243)),
+//                                 ),
+//                                 checkColor: Colors.white,
+//                                 value: false,
+//                                 onChanged: (bool? value) {
+//                                   // BlocProvider.of<PatLoginBloc>(context)
+//                                   //     .add(PatRememberMeEvent(remember: value));
+//                                 },
+//                               ),
+//                               SizedBox(width: 5.sp),
+//                               Text(
+//                                 'Remember me',
+//                                 style: TextStyle(
+//                                   fontSize: 12.sp,
+//                                   fontWeight: FontWeight.w400,
+//                                   color: Color(0xff000000),
+//                                 ),
+//                               ),
+//                             ],
+//                           ),
+//                           SizedBox(height: 20.sp),
+//                           BlueButton(
+//                             title: 'Sign In',
+//                             onPressed: () {
+//                               // log(BlocProvider.of<PathAuthBloc>(context)
+//                               //         .state.page.toString() , name: 'before');
+//                               BlocProvider.of<PathAuthBloc>(context)
+//                                   .add(PatSignInEvent());
+//                             },
+//                           ),
+//                         ],
+//                       ),
+//                       BottomText(
+//                         text1: 'Don’t have an account? ',
+//                         text2: 'Sign Up',
+//                         onPressed: () {
+//                           Navigator.pushReplacementNamed(
+//                               context, '/pat/signUp');
+//                         },
+//                       ),
+//                     ],
+//                   ),
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
+
