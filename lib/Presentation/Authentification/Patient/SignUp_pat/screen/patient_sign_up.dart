@@ -1,4 +1,3 @@
-import 'package:e_health/Presentation/Authentification/Patient/Login_pat/screen/pat_login_screen.dart';
 import 'package:e_health/Presentation/Authentification/Patient/SignUp_pat/pages/choose_doctor_screen.dart';
 import 'package:e_health/Presentation/Authentification/Patient/SignUp_pat/pages/email_screen.dart';
 import 'package:e_health/Presentation/Authentification/Patient/SignUp_pat/bloc/path_auth_bloc.dart';
