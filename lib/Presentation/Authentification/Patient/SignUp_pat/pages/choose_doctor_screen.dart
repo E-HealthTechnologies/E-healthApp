@@ -96,7 +96,7 @@ class _ChooseDoctorScreenState extends State<ChooseDoctorScreen> {
                               },
                               child: Icon(Icons.arrow_back),
                             ),
-                            SizedBox(width: 28.sp),
+                            SizedBox(width: 28.sp),//nothing
                             Text(
                               'Choose your doctor',
                               style: TextStyle(

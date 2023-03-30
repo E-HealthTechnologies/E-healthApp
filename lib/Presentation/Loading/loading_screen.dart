@@ -14,7 +14,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   String nextRoute = '/onBoard';
 
   @override
-  void initState() {
+  void initState() {//nothing
     super.initState();
     navigate();
   }

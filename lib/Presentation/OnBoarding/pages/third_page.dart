@@ -47,7 +47,7 @@ class ThirdPage extends StatelessWidget {
           GestureDetector(
             onTap: () {
               Navigator.pushReplacementNamed(context, '/pat/signUp');
-            },
+            },//nothing
             child: Container(
               height: 55,
               width: MediaQuery.of(context).size.width * 0.8,

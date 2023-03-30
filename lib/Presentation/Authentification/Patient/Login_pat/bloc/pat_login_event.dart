@@ -8,7 +8,7 @@ abstract class PatLoginEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class PatEmailEvent extends PatLoginEvent {
+class PatEmailEvent extends PatLoginEvent {//nothing
   PatEmailEvent({required this.email});
 
   final String email;

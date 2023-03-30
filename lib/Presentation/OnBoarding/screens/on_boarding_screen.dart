@@ -11,7 +11,7 @@ class OnBoardingScreen extends StatefulWidget {
 }
 
 class OnBoardingScreenState extends State<OnBoardingScreen> {
-  final pageController = PageController();
+  final pageController = PageController();//nothing
   final selectedIndex = ValueNotifier(0);
 
   @override

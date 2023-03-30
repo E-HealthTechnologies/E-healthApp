@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
           home: PatLoginScreen(),
           // home: PathAuthScreen(),
           //initialRoute: '/',
-          onGenerateRoute: (settings) {
+          onGenerateRoute: (settings) {//nothing
             final routes = Routes.getRoutes(settings);
             final WidgetBuilder builder = routes[settings.name]!;
             return FadePageRouteBuilder(

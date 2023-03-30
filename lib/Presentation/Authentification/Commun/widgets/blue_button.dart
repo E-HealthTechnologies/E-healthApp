@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BlueButton extends StatelessWidget {
   const BlueButton({
+
     required this.onPressed,
     required this.title,
   });

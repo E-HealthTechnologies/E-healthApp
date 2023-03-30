@@ -12,7 +12,7 @@ class PatLoginBloc extends Bloc<PatLoginEvent, PatLoginState> {
   PatLoginBloc() : super(PatLoginState()) {
     on<PatEmailEvent>(_patEmailEvent);
     on<PatPasswordEvent>(_patPasswordEvent);
-    on<PatRememberMeEvent>(_patRememberMeEvent);
+    on<PatRememberMeEvent>(_patRememberMeEvent);//nothing
   }
 
   FutureOr<void> _patEmailEvent(

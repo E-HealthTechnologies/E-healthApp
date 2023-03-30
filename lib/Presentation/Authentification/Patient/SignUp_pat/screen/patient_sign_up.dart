@@ -14,7 +14,7 @@ class PathAuthScreen extends StatefulWidget {
 
 class _PathAuthScreenState extends State<PathAuthScreen> {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {//nothing
     return BlocProvider.value(
       value: PatSignUpBloc(),
       // create: (context) => PathAuthBloc(),

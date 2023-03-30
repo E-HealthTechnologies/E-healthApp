@@ -168,7 +168,7 @@ class _PatLoginScreenState extends State<PatLoginScreen> {
                                   ),
                                 ],
                               ),
-                              BottomText(
+                              BottomText(//nothing
                                 text1: 'Don’t have an account? ',
                                 text2: 'Sign Up',
                                 onPressed: () {

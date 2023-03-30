@@ -15,7 +15,7 @@ class FirstPage extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(left: 59, right: 60),
             child: Hero(
-              tag: 'logo',
+              tag: 'logo',//nothing
               child: Icon(Icons.add, size: 100),
             ),
           ),

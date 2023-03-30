@@ -63,7 +63,7 @@ class _InformationScreenState extends State<InformationScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Column(
+                      Column(//nothing
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Container(

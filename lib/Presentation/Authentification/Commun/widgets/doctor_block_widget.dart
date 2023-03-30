@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DoctorBlockWidget extends StatelessWidget {
-  const DoctorBlockWidget(
+  const DoctorBlockWidget(//nothing
       {required this.docName,
         required this.specialist,
         required this.hospital,
