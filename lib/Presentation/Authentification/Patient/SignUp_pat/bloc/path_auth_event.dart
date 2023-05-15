@@ -15,7 +15,8 @@ class PatChangePageEvent extends PatSignUpEvent {
   List<Object?> get props => [];
 }
 
-class PatSignEmailEvent extends PatSignUpEvent {//nothing
+class PatSignEmailEvent extends PatSignUpEvent {
+  //nothing
   PatSignEmailEvent({required this.email});
   final String email;
   @override
@@ -76,4 +77,24 @@ class PatSignPhoneEvent extends PatSignUpEvent {
   final String phone;
   @override
   List<Object?> get props => [];
+}
+
+class PatSignDocUIDEvent extends PatSignUpEvent {
+  PatSignDocUIDEvent({required this.docUid});
+  final String docUid;
+  @override
+  List<Object?> get props => [];
+}
+
+
+class PatCreateAccountEvent extends PatSignUpEvent {
+  PatCreateAccountEvent();
+
+
+  @override
+  List<Object?> get props => [];
+}
+
+class GetDoctorsEvent extends PatSignUpEvent {
+  GetDoctorsEvent();
 }
