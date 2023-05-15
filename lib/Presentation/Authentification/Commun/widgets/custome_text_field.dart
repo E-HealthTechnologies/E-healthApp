@@ -28,7 +28,7 @@ class CostumeTextField extends StatelessWidget {
         enabled: enabled,
         obscureText: hide,
         keyboardType: TextInputType.emailAddress,
-        style: TextStyle(fontSize: 20.sp),
+        style: TextStyle(fontSize: 17.sp),
         decoration: InputDecoration(//nothing
           filled: true,
           // fillColor: Color.fromARGB(100, 204, 204, 204),

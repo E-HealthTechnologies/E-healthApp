@@ -74,26 +74,25 @@ class DoctorBlockWidget extends StatelessWidget {
                       color: Color(0x7f212427),
                     ),
                   ),
+                  Text(
+                    specialist,
+                    style: TextStyle(
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w300,
+                      // height: 1.2.sp,
+                      color: Color(0xff212427),
+                    ),
+                  ),
                   Row(
                     children: [
-                      Text(
-                        specialist,
-                        style: TextStyle(
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w300,
-                          // height: 1.2.sp,
-                          color: Color(0xff212427),
-                        ),
-                      ),
-                      SizedBox(width: 6.5.sp),
-                      Container(
-                        margin: EdgeInsets.fromLTRB(0.sp, 0.sp, 6.5.sp, 1.sp),
-                        width: 0.5.sp,
-                        height: 10.sp,
-                        decoration: BoxDecoration(
-                          color: Color(0xff000000),
-                        ),
-                      ),
+                      // Container(
+                      //   margin: EdgeInsets.fromLTRB(0.sp, 0.sp, 6.5.sp, 1.sp),
+                      //   width: 0.5.sp,
+                      //   height: 10.sp,
+                      //   decoration: BoxDecoration(
+                      //     color: Color(0xff000000),
+                      //   ),
+                      // ),
                       Text(
                         hospital,
                         style: TextStyle(

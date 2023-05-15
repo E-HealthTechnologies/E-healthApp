@@ -1,11 +1,15 @@
-import 'package:e_health/Presentation/Authentification/Patient/Login_pat/screen/pat_login_screen.dart';
-import 'package:e_health/Presentation/Authentification/Patient/SignUp_pat/screen/patient_sign_up.dart';
+import 'package:e_health/Presentation/Home/Patient/Screens/patient_home_screen.dart';
 import 'package:e_health/Presentation/routing/routes.dart';
 import 'package:e_health/Presentation/routing/transition_page_route_builder.dart';
+import 'package:e_health/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-void main() {
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 
@@ -18,7 +22,7 @@ class MyApp extends StatelessWidget {
       designSize: const Size(360, 690),
       minTextAdapt: true,
       splitScreenMode: true,
-      builder: (context , child) {
+      builder: (context, child) {
         return MaterialApp(
           builder: (context, widget) => ResponsiveWrapper.builder(
             BouncingScrollWrapper.builder(context, widget!),
@@ -30,10 +34,11 @@ class MyApp extends StatelessWidget {
           ),
           title: 'Ehealth',
           debugShowCheckedModeBanner: false,
-          home: PatLoginScreen(),
-          // home: PathAuthScreen(),
+          // home: PatLoginScreen(),
           //initialRoute: '/',
-          onGenerateRoute: (settings) {//nothing
+          home: PatHomeScreen(),
+          onGenerateRoute: (settings) {
+            //nothing
             final routes = Routes.getRoutes(settings);
             final WidgetBuilder builder = routes[settings.name]!;
             return FadePageRouteBuilder(
