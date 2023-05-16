@@ -3,6 +3,6 @@ graphs screen:
         ✔ data from string @done(23-05-16 17:02)
         select data by time:
             ✔ day @done(23-05-16 17:02)
-            ☐ month
+            ✔ month @done(23-05-16 17:40)
             ☐ week
 

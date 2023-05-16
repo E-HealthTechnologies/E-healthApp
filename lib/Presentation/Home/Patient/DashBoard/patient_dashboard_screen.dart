@@ -173,7 +173,7 @@ class InfoBoxWidget extends StatelessWidget {
       width: 160.sp,
       height: 140.sp,
       decoration: BoxDecoration(
-        color: Color(0xfff5e1e9),
+        color: Color(0x5F49CAAE),
         borderRadius: BorderRadius.circular(24.sp),
       ),
       child: Column(

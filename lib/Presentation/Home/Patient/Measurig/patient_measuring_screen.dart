@@ -3,79 +3,68 @@ import 'package:e_health/Presentation/Home/Patient/Measurig/Screens/glucose_scre
 import 'package:e_health/Presentation/Home/Patient/Measurig/Screens/heart_beat_screen.dart';
 import 'package:e_health/Presentation/Home/Patient/Measurig/Screens/tempuratue_screen.dart';
 import 'package:e_health/Presentation/Home/Patient/Measurig/bloc/pat_measuring_bloc.dart';
+import 'package:e_health/Presentation/Home/Patient/Measurig/bloc/pat_measuring_state.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tab_container/tab_container.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class PatMeasuringScreen extends StatefulWidget {
-  PatMeasuringScreen();
+class GlucoMeasurmentScreen extends StatefulWidget {
+  GlucoMeasurmentScreen();
 
   @override
-  State<PatMeasuringScreen> createState() => _PatHomeScreenState();
+  State<GlucoMeasurmentScreen> createState() => _PatHomeScreenState();
 }
 
-class _PatHomeScreenState extends State<PatMeasuringScreen> {
-  late PatMeasuringBloc _patMeasuringBloc;
+class _PatHomeScreenState extends State<GlucoMeasurmentScreen> {
   final User? user = FirebaseAuth.instance.currentUser;
 
   void initState() {
     super.initState();
-    _patMeasuringBloc = PatMeasuringBloc();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: _patMeasuringBloc,
-      child: BlocListener<PatMeasuringBloc, PatMeasuringState>(
-        listener: (context, state) {},
-        child: BlocBuilder<PatMeasuringBloc, PatMeasuringState>(
-          builder: (context, state) {
-            return SafeArea(
-              child: Scaffold(
-                body: Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Color(0xfff5f5f5),
-                    // color: Theme.of(context).colorScheme.secondary,
-                    // color: Color(0xfff5f5f5),
-                  ),
-                  child: Container(
-                    margin: EdgeInsets.fromLTRB(11.sp, 0.sp, 11.sp, 20.sp),
-                    child: TabContainer(
-                      color: Color(0x5F49CAAE),
-                      // color: Theme.of(context).colorScheme.secondary,
-                      children: [
-                        TemperatureScreen(),
-                        BloodPressureScreen(uid: user!.uid),
-                        GlucoseScreen(),
-                        HeartBeatScreen(),
-                      ],
+    return SafeArea(
+      child: Scaffold(
+        body: Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: Color(0xfff5f5f5),
+            // color: Theme.of(context).colorScheme.secondary,
+            // color: Color(0xfff5f5f5),
+          ),
+          child: Container(
+            margin: EdgeInsets.fromLTRB(11.sp, 0.sp, 11.sp, 20.sp),
+            child: TabContainer(
+              color: Color(0x5F49CAAE),
+              // color: Theme.of(context).colorScheme.secondary,
+              children: [
+                TemperatureScreen(),
+                BloodPressureScreen(uid: user!.uid),
+                GlucoseScreen(),
+                HeartBeatScreen(),
+              ],
 
-                      selectedTextStyle: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 13.0,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      unselectedTextStyle: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 13.0,
-                      ),
-                      // isStringTabs: false,
-                      tabs: [
-                        'Temperature',
-                        'Blood Pressure',
-                        'Glucose',
-                        'Heart Beat',
-                      ],
-                    ),
-                  ),
-                ),
+              selectedTextStyle: const TextStyle(
+                color: Colors.black,
+                fontSize: 13.0,
+                fontWeight: FontWeight.w500,
               ),
-            );
-          },
+              unselectedTextStyle: const TextStyle(
+                color: Colors.black,
+                fontSize: 13.0,
+              ),
+              // isStringTabs: false,
+              tabs: [
+                'Temperature',
+                'Blood Pressure',
+                'Glucose',
+                'Heart Beat',
+              ],
+            ),
+          ),
         ),
       ),
     );

@@ -56,7 +56,7 @@ class _PatHomeScreenState extends State<PatHomeScreen> {
 
     _pages = [
       PatDashScreen(),
-      PatMeasuringScreen(),
+      GlucoMeasurmentScreen(),
       PatHistoryScreen(),
     ];
   }
@@ -116,11 +116,11 @@ class _PatHomeScreenState extends State<PatHomeScreen> {
               bottomNavigationBar: Container(
                 child: BottomBarSalomon(
                   items: items,
-                  color: Colors.blue,
+                  color: Color(0xff3f51b5),
                   // backgroundColor: Colors.white,
                   backgroundColor: Color(0xfff5f5f5),
                   colorSelected: Colors.white,
-                  backgroundSelected: Colors.blue,
+                  backgroundSelected: Color(0xff3f51b5),
                   borderRadius: BorderRadius.circular(0),
                   indexSelected: state.page,
                   onTap: (index) =>

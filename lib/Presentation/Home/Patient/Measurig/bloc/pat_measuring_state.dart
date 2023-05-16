@@ -1,41 +1,20 @@
-part of 'pat_measuring_bloc.dart';
+import 'package:e_health/Presentation/Home/Patient/Measurig/widgets/gluco_graph.dart';
+import 'package:e_health/Services/graph_service.dart';
+import 'package:equatable/equatable.dart';
 
-enum Status {
-  initial,
-  loading,
-  success,
-  fail,
-  finish,
-  loadingDoctors,
+class GlucoMeasurmentState extends Equatable {
+  @override
+  List<Object?> get props => [];
 }
 
-@immutable
-class PatMeasuringState extends Equatable {
-  PatMeasuringState({
-    this.status = Status.loading,
-    this.data = const [],
-    this.dataList = const [],
-  });
+class GlucoFirstLoadState extends GlucoMeasurmentState {}
 
-  Status status;
-  List<Map<String, dynamic>> data;
+class GlucoLoadingState extends GlucoMeasurmentState {}
+
+// List<Map<String, dynamic>> data;
+class GlucoDataloadedState extends GlucoMeasurmentState {
   List<GlucoseTimedData> dataList;
-  PatMeasuringState copyWith({
-    Status? status,
-    List<Map<String, dynamic>>? data,
-    List<GlucoseTimedData>? dataList,
-  }) {
-    return PatMeasuringState(
-      status: status ?? this.status,
-      data: data ?? this.data,
-      dataList: dataList ?? this.dataList,
-    );
-  }
-
+  GlucoDataloadedState(this.dataList);
   @override
-  List<Object?> get props => [
-        status,
-        data,
-        dataList,
-      ];
+  List<Object?> get props => [this.dataList];
 }

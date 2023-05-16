@@ -1,34 +1,16 @@
-part of 'pat_measuring_bloc.dart';
+import 'package:equatable/equatable.dart';
+import 'package:e_health/Presentation/Home/Patient/Measurig/widgets/gluco_graph.dart';
 
-@immutable
-abstract class PatMeasuringEvent extends Equatable {
-  const PatMeasuringEvent();
-
+class GlucoMeasurmentEvent extends Equatable {
   @override
   List<Object?> get props => [];
 }
 
-class GetDataEvent extends PatMeasuringEvent {
-  GetDataEvent({required this.data, required this.dataList});
-  final List<Map<String, dynamic>> data;
-  final List<GlucoseTimedData> dataList;
+class GlucoLoadData extends GlucoMeasurmentEvent {
+  String uid;
+  SelectedView selectedView;
+  DateTime? dateTime;
+  GlucoLoadData({required this.uid, this.dateTime, required this.selectedView});
   @override
-  List<Object?> get props => [];
-}
-
-class UploadMeasurementEvent extends PatMeasuringEvent {
-  UploadMeasurementEvent({required this.date, required this.value});
-  // final List<Map<String, dynamic>> data;
-  final DateTime date;
-  final String value;
-  // final List<SalesData> dataList ;
-  @override
-  List<Object?> get props => [];
-}
-
-class MeasureEvent extends PatMeasuringEvent {
-  MeasureEvent();
-
-  @override
-  List<Object?> get props => [];
+  List<Object?> get props => [this.uid, this.selectedView, this.dateTime];
 }

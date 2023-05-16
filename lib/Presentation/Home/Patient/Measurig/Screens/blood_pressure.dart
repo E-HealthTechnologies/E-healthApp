@@ -1,6 +1,11 @@
 import 'dart:developer';
 
 import 'package:e_health/Presentation/Home/Patient/Measurig/bloc/pat_measuring_bloc.dart';
+import 'package:e_health/Presentation/Home/Patient/Measurig/bloc/pat_measuring_event.dart';
+import 'package:e_health/Presentation/Home/Patient/Measurig/bloc/pat_measuring_state.dart';
+import 'package:e_health/Presentation/Home/Patient/Measurig/graph_controller.dart';
+import 'package:e_health/Presentation/Home/Patient/Measurig/widgets/gluco_graph.dart';
+import 'package:e_health/Presentation/Home/Patient/Measurig/widgets/select_butt.dart';
 import 'package:e_health/Services/GetDataServices.dart';
 import 'package:e_health/Services/StoreDataServices.dart';
 import 'package:e_health/Services/graph_service.dart';
@@ -18,135 +23,141 @@ class BloodPressureScreen extends StatefulWidget {
 }
 
 class _BloodPressureScreenState extends State<BloodPressureScreen> {
-  late PatMeasuringBloc _patMeasuringBloc;
-
   @override
   void initState() {
     super.initState();
-    _patMeasuringBloc = BlocProvider.of<PatMeasuringBloc>(context);
   }
 
+  SelectedView selectedView = SelectedView.daySelected;
+  DateTime dateTime = DateTime.now();
+  List<GlucoseTimedData> smallList = [];
+  static const Duration oneMonth = Duration(days: 30),
+      oneDay = Duration(days: 1),
+      oneWeek = Duration(days: 7);
   @override
   Widget build(BuildContext context) {
-    List<Map<String, dynamic>> data;
-    List<GlucoseTimedData> smallList = [];
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        // Text(
-        //   'Click to start measuring',
-        //   style: TextStyle(
-        //     fontWeight: FontWeight.w400,
-        //     fontSize: 15.sp,
-        //     color: Colors.white,
-        //   ),
-        // ),
-        // SizedBox(height: 20.sp),
-        ElevatedButton(
-          onPressed: () async {
-            GetDataServices service = GetDataServices();
-            data = await service.getMeasurementData(
-                uid: widget.uid, type: 'Glucose');
-            print(data.length);
-            smallList = GraphService.glucoDayData(
-                bigList: TimedData(data),
-                dateTime: DateTime.parse("2023-07-02 10:50:40.056570"));
-            print(smallList.length.toString());
-            for (int i = 0; i < smallList.length; i++) {
-              log(smallList[i].value.toString());
-            }
-            _patMeasuringBloc
-                .add(GetDataEvent(data: data, dataList: smallList));
-            print(smallList.length);
-            /** **************** */
-            // for (int i = 1; i < 50; i++) {
-            //   var rnd = Random();
-            //   int min = 70;
-            //   int max = 150;
-            //   int value = min + rnd.nextInt(max - min);
-            //   final json = {
-            //     // 'Date': DateFormat.yMd()
-            //     //     .add_jm()
-            //     //     .format(DateTime.now().add(Duration(days: i))),
-            //     'Date': DateTime.now().add(Duration(days: i, hours: i)),
-            //     'Value': value,
-            //     // 'Value big': value~/2,
-            //   };
-            //   StoreDataServices service = StoreDataServices();
-            //   service.uploadData(
-            //     uid: widget.uid,
-            //     type: 'Blood Pressure',
-            //     data: json,
-            //   );
-            // }
-          },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Color(0xff3f51b5),
-            minimumSize: Size(150.sp, 30.sp),
-            maximumSize: Size(150.sp, 40.sp),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(50.sp),
-            ),
-          ),
-          child: Center(
-            child: Text(
-              'Measure',
-              style: TextStyle(
-                fontSize: 14.sp,
-                fontWeight: FontWeight.w600,
-                color: Color(0xffffffff),
-              ),
-            ),
-          ),
-        ),
-        SizedBox(height: 40.sp),
-        Container(
-          child: Container(
-            color: Color(0x00f5f5f5),
-            // color: Colors.white,
-            child: SfCartesianChart(
-              borderWidth: 0,
-              plotAreaBorderWidth: 0,
-
-              // Initialize category axis
-              primaryXAxis: DateTimeAxis(
-                // minimum: DateTime.parse("2023-05-16 13:50:33.396256"),
-                // maximum: DateTime.parse("2023-07-05 13:50:40.059106"),
-                axisLine: AxisLine(color: Color(0x00000000)),
-                majorGridLines: MajorGridLines(
-                  color: Color(0x00000000),
-                ),
-              ),
-              primaryYAxis: NumericAxis(
-                // interval: 10,
-                // minimum: 50,
-                // maximum: 130,
-                axisLine: AxisLine(color: Color(0x00000000)),
-                majorGridLines: MajorGridLines(
-                  color: Color(0x0F000000),
-                ),
-              ),
-              // primaryXAxis: CategoryAxis(),
-              palette: <Color>[Colors.red],
-
-              series: <ChartSeries<GlucoseTimedData, DateTime>>[
-                LineSeries<GlucoseTimedData, DateTime>(
-                    dataSource: _patMeasuringBloc.state.dataList,
-                    xValueMapper: (GlucoseTimedData sales, _) =>
-                        sales.timeStamp,
-                    yValueMapper: (GlucoseTimedData sales, _) => sales.value,
-                    color: Colors.amber
-                    // gradient: LinearGradient(
-                    //   colors: [Color.fromARGB(255, 255, 0, 0), Color(0x0Fffffff)],
-                    //   begin: Alignment.topCenter,
-                    //   end: Alignment.bottomCenter,
-                    // ),
+    return BlocProvider(
+      create: (context) => GlucoMeasurmentBloc(),
+      child: BlocBuilder<GlucoMeasurmentBloc, GlucoMeasurmentState>(
+        builder: (context, state) {
+          if (state is GlucoFirstLoadState) {
+            context.read<GlucoMeasurmentBloc>().add(
+                GlucoLoadData(uid: widget.uid, selectedView: selectedView));
+          }
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Center(
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      context.read<GlucoMeasurmentBloc>().add(GlucoLoadData(
+                          uid: widget.uid,
+                          dateTime: dateTime,
+                          selectedView: selectedView));
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xff3f51b5),
+                      minimumSize: Size(150.sp, 30.sp),
+                      maximumSize: Size(150.sp, 40.sp),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50.sp),
+                      ),
                     ),
-              ],
-            ),
-          ),
-        ),
-      ],
+                    child: Center(
+                      child: Text(
+                        'Measure',
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xffffffff),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: GraphController(
+                            actualDateTime: dateTime,
+                            next: () {
+                              if (selectedView == SelectedView.monthSelected)
+                                dateTime = dateTime.add(oneMonth);
+                              else if (selectedView ==
+                                  SelectedView.weeekSelected)
+                                dateTime = dateTime.add(oneWeek);
+                              else
+                                dateTime = dateTime.add(oneDay);
+                              context.read<GlucoMeasurmentBloc>().add(
+                                  GlucoLoadData(
+                                      uid: widget.uid,
+                                      selectedView: selectedView,
+                                      dateTime: dateTime));
+                            },
+                            nextPage: () {},
+                            previous: () {
+                              if (selectedView == SelectedView.monthSelected)
+                                dateTime = dateTime.subtract(oneMonth);
+                              else if (selectedView ==
+                                  SelectedView.weeekSelected)
+                                dateTime = dateTime.subtract(oneWeek);
+                              else
+                                dateTime = dateTime.subtract(oneDay);
+                              context.read<GlucoMeasurmentBloc>().add(
+                                  GlucoLoadData(
+                                      uid: widget.uid,
+                                      selectedView: selectedView,
+                                      dateTime: dateTime));
+                            },
+                            previousPage: () {}),
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      GlocoGraph(
+                        dataList:
+                            state is GlucoDataloadedState ? state.dataList : [],
+                        selectedView: selectedView,
+                        dayTab: () {
+                          selectedView = SelectedView.daySelected;
+                          context.read<GlucoMeasurmentBloc>().add(GlucoLoadData(
+                              uid: widget.uid,
+                              selectedView: selectedView,
+                              dateTime: dateTime));
+                        },
+                        monthTab: () {
+                          selectedView = SelectedView.monthSelected;
+                          context.read<GlucoMeasurmentBloc>().add(GlucoLoadData(
+                              uid: widget.uid,
+                              selectedView: selectedView,
+                              dateTime: dateTime));
+                        },
+                        weekTab: () {
+                          selectedView = SelectedView.weeekSelected;
+                          context.read<GlucoMeasurmentBloc>().add(GlucoLoadData(
+                              uid: widget.uid,
+                              selectedView: selectedView,
+                              dateTime: dateTime));
+                        },
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              // SizedBox(height: 20),
+            ],
+          );
+        },
+      ),
     );
   }
 }
