@@ -19,11 +19,11 @@ class PatMeasuringState extends Equatable {
 
   Status status;
   List<Map<String, dynamic>> data;
-  List<SalesData> dataList;
+  List<GlucoseTimedData> dataList;
   PatMeasuringState copyWith({
     Status? status,
     List<Map<String, dynamic>>? data,
-    List<SalesData>? dataList,
+    List<GlucoseTimedData>? dataList,
   }) {
     return PatMeasuringState(
       status: status ?? this.status,

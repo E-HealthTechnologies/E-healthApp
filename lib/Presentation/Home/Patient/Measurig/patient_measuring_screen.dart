@@ -39,20 +39,24 @@ class _PatHomeScreenState extends State<PatMeasuringScreen> {
                   width: double.infinity,
                   decoration: BoxDecoration(
                     color: Color(0xfff5f5f5),
+                    // color: Theme.of(context).colorScheme.secondary,
+                    // color: Color(0xfff5f5f5),
                   ),
                   child: Container(
                     margin: EdgeInsets.fromLTRB(11.sp, 0.sp, 11.sp, 20.sp),
                     child: TabContainer(
-                      color: Theme.of(context).colorScheme.secondary,
+                      color: Color(0x5F49CAAE),
+                      // color: Theme.of(context).colorScheme.secondary,
                       children: [
                         TemperatureScreen(),
                         BloodPressureScreen(uid: user!.uid),
                         GlucoseScreen(),
                         HeartBeatScreen(),
                       ],
+
                       selectedTextStyle: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 15.0,
+                        color: Colors.black,
+                        fontSize: 13.0,
                         fontWeight: FontWeight.w500,
                       ),
                       unselectedTextStyle: const TextStyle(

@@ -9,18 +9,18 @@ abstract class PatMeasuringEvent extends Equatable {
 }
 
 class GetDataEvent extends PatMeasuringEvent {
-  GetDataEvent({required this.data , required this.dataList});
+  GetDataEvent({required this.data, required this.dataList});
   final List<Map<String, dynamic>> data;
-  final List<SalesData> dataList ;
+  final List<GlucoseTimedData> dataList;
   @override
   List<Object?> get props => [];
 }
 
 class UploadMeasurementEvent extends PatMeasuringEvent {
-  UploadMeasurementEvent({required this.date , required this.value});
+  UploadMeasurementEvent({required this.date, required this.value});
   // final List<Map<String, dynamic>> data;
-  final DateTime date ;
-  final String value ;
+  final DateTime date;
+  final String value;
   // final List<SalesData> dataList ;
   @override
   List<Object?> get props => [];

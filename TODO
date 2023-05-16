@@ -1,0 +1,8 @@
+graphs screen:
+    re arrange data (day, month, week):
+        ✔ data from string @done(23-05-16 17:02)
+        select data by time:
+            ✔ day @done(23-05-16 17:02)
+            ☐ month
+            ☐ week
+
