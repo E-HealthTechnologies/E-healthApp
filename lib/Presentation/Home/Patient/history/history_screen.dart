@@ -1,20 +1,20 @@
-import 'package:e_health/Presentation/Home/Patient/Measurig/Screens/blood_pressure_measuring.dart';
-import 'package:e_health/Presentation/Home/Patient/Measurig/Screens/glucose_measuring_screen.dart';
-import 'package:e_health/Presentation/Home/Patient/Measurig/Screens/heart_beat_measuring_screen.dart';
-import 'package:e_health/Presentation/Home/Patient/Measurig/Screens/tempuratue_measuring_screen.dart';
+import 'package:e_health/Presentation/Home/Patient/history/blood_pressure_history/blood_pressure_history_screen.dart';
+import 'package:e_health/Presentation/Home/Patient/history/gluco_history/gluco_history_screen.dart';
+import 'package:e_health/Presentation/Home/Patient/history/heart_beat_history/heart_beat_history_screen.dart';
+import 'package:e_health/Presentation/Home/Patient/history/temperature_history/temperature_history_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tab_container/tab_container.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class GlucoMeasurmentScreen extends StatefulWidget {
-  GlucoMeasurmentScreen();
+class PatHistoryScreen extends StatefulWidget {
+  PatHistoryScreen();
 
   @override
-  State<GlucoMeasurmentScreen> createState() => _PatHomeScreenState();
+  State<PatHistoryScreen> createState() => _PatHomeScreenState();
 }
 
-class _PatHomeScreenState extends State<GlucoMeasurmentScreen> {
+class _PatHomeScreenState extends State<PatHistoryScreen> {
   final User? user = FirebaseAuth.instance.currentUser;
 
   void initState() {
@@ -38,10 +38,10 @@ class _PatHomeScreenState extends State<GlucoMeasurmentScreen> {
               color: Color(0x5F49CAAE),
               // color: Theme.of(context).colorScheme.secondary,
               children: [
-                TemperatureScreen(),
-                BloodPressureScreen(uid: user!.uid),
-                GlucoseScreen(),
-                HeartBeatScreen(),
+                TemperatureHistory(),
+                BloodPressureHistory(),
+                GlucoHistoryScreen(uid: user!.uid),
+                HeartBeatHistory(),
               ],
 
               selectedTextStyle: const TextStyle(
