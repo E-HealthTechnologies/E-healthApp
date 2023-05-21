@@ -21,6 +21,8 @@ class GraphService {
   static List<GlucoseTimedData> glucoMonthData(
       {required TimedData bigList, required DateTime dateTime}) {
     List<GlucoseTimedData> monthList = [], avgList = [];
+    int daysInMonth = DateTime(dateTime.year, dateTime.month + 1, 0).day;
+    if (bigList.glucose.length == 0) return [];
     for (int i = 0; i < bigList.glucose.length; i++) {
       if (bigList.glucose[i].timeStamp.month == dateTime.month &&
           bigList.glucose[i].timeStamp.year == dateTime.year) {
@@ -28,13 +30,13 @@ class GraphService {
       }
     }
     monthList.sort((a, b) {
-      return a.timeStamp.compareTo(b.timeStamp);
+      return b.timeStamp.compareTo(a.timeStamp);
     });
-    for (int i = 0; i <= 31; i++) {
+    for (int i = 0; i <= daysInMonth; i++) {
       int dayAvg = 0;
       for (int e = 0; e < monthList.length; e++) {
         if (monthList[e].timeStamp.day == i) {
-          dayAvg += monthList[i].value;
+          dayAvg += monthList[e].value;
           dayAvg = dayAvg ~/ 2;
         }
       }
@@ -44,7 +46,6 @@ class GraphService {
                 monthList[0].timeStamp.year, monthList[0].timeStamp.month, i),
             dayAvg));
     }
-    log('len = ' + avgList.length.toString());
     return avgList;
   }
 }
@@ -53,9 +54,11 @@ class TimedData {
   late List<GlucoseTimedData> glucose = [];
 
   TimedData(List<Map<String, dynamic>> measurementsModel) {
-    for (int i = 0; i < measurementsModel.length; i++) {
-      glucose.add(GlucoseTimedData(DateTime.parse(measurementsModel[i]['Date']),
-          measurementsModel[i]['Value']));
+    if (measurementsModel.length > 0) {
+      for (int i = 0; i < measurementsModel.length; i++) {
+        glucose.add(GlucoseTimedData(measurementsModel[i]['Date'].toDate(),
+            measurementsModel[i]['Value']));
+      }
     }
   }
 }

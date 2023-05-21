@@ -18,7 +18,7 @@ class GetDataServices {
     for (int i = 0; i < data.length; i++) {
       Map<String, dynamic> value = data[i];
       dataList.add(value);
-      // log(dataList[i].toString());
+      // log(dataList[i]['Date'].toString());
     }
     // return PatientDataModel.fromFirestore(snapshot);
     return dataList;

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:e_health/Presentation/Home/Patient/history/widgets/select_butt.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class GraphController extends StatelessWidget {
   DateTime actualDateTime;
@@ -13,7 +14,7 @@ class GraphController extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
+      mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         TransButtonIcon(
@@ -21,28 +22,28 @@ class GraphController extends StatelessWidget {
           onTab: () {
             previous();
           },
-          size: 20,
+          size: 20.sp,
         ),
         SizedBox(
-          width: 10,
+          width: 15.sp,
         ),
         Text(
           "${actualDateTime.year} - ${actualDateTime.month} - ${actualDateTime.day}",
           style: TextStyle(
             color: Colors.black45,
-            fontSize: 15,
+            fontSize: 13.sp,
             fontWeight: FontWeight.w400,
           ),
         ),
         SizedBox(
-          width: 10,
+          width: 15.sp,
         ),
         TransButtonIcon(
           icon: Icons.arrow_forward_ios,
           onTab: () {
             next();
           },
-          size: 20,
+          size: 20.sp,
         ),
       ],
     );

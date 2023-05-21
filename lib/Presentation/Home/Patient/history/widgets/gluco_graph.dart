@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 enum SelectedView {
   daySelected,
@@ -47,61 +48,67 @@ class GlocoGraph extends StatelessWidget {
     }
 
     return Container(
+      padding: EdgeInsets.all(5.sp),
       color: Color(0x00f5f5f5),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          SizedBox(
+            height: 10.sp,
+          ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               SizedBox(
-                width: 5,
+                width: 20.sp,
               ),
-              Container(
-                child: Row(
-                  children: [
-                    TransButtonText(
-                      lable: 'Day',
-                      onTab: () {
-                        dayTab();
-                      },
-                      state: selectedView == SelectedView.daySelected,
-                    ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    TransButtonText(
-                      lable: 'Week',
-                      onTab: () {
-                        weekTab();
-                      },
-                      state: selectedView == SelectedView.weeekSelected,
-                    ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    TransButtonText(
-                      lable: 'Month',
-                      onTab: () {
-                        monthTab();
-                      },
-                      state: selectedView == SelectedView.monthSelected,
-                    ),
-                  ],
-                ),
+              Row(
+                children: [
+                  TransButtonText(
+                    lable: 'Day',
+                    onTab: () {
+                      dayTab();
+                    },
+                    state: selectedView == SelectedView.daySelected,
+                  ),
+                  SizedBox(
+                    width: 5.sp,
+                  ),
+                  TransButtonText(
+                    lable: 'Week',
+                    onTab: () {
+                      weekTab();
+                    },
+                    state: selectedView == SelectedView.weeekSelected,
+                  ),
+                  SizedBox(
+                    width: 5.sp,
+                  ),
+                  TransButtonText(
+                    lable: 'Month',
+                    onTab: () {
+                      monthTab();
+                    },
+                    state: selectedView == SelectedView.monthSelected,
+                  ),
+                ],
               ),
               SizedBox(
-                width: 10,
+                width: 10.sp,
               ),
               SizedBox(
-                width: 5,
+                width: 5.sp,
               ),
             ],
+          ),
+          SizedBox(
+            height: 10.sp,
           ),
           Container(
             color: Color(0xf5f5f5),
             // color: Colors.white,
+            height: 200.sp,
             child: SfCartesianChart(
               backgroundColor: Color(0x00f5f5f5),
               borderWidth: 0,
@@ -116,8 +123,14 @@ class GlocoGraph extends StatelessWidget {
                 majorGridLines: MajorGridLines(
                   color: Color(0x00000000),
                 ),
+                rangePadding: selectedView == SelectedView.daySelected
+                    ? ChartRangePadding.additional
+                    : ChartRangePadding.auto,
+                labelStyle: TextStyle(fontSize: 10.sp),
               ),
               primaryYAxis: NumericAxis(
+                labelStyle: TextStyle(fontSize: 10.sp),
+
                 // interval: 10,
                 minimum: minValue - 10,
                 maximum: maxValue + 10,
@@ -130,21 +143,54 @@ class GlocoGraph extends StatelessWidget {
               // primaryXAxis: CategoryAxis(),
               palette: <Color>[Colors.red],
 
-              series: <ScatterSeries<GlucoseTimedData, DateTime>>[
-                ScatterSeries<GlucoseTimedData, DateTime>(
-                    dataSource: dataList,
-                    xValueMapper: (GlucoseTimedData values, _) =>
-                        values.timeStamp,
-                    yValueMapper: (GlucoseTimedData values, _) => values.value,
-                    color: Colors.amber
-                    // gradient: LinearGradient(
-                    //   colors: [Color.fromARGB(255, 255, 0, 0), Color(0x0Fffffff)],
-                    //   begin: Alignment.topCenter,
-                    //   end: Alignment.bottomCenter,
-                    // ),
-                    ),
-              ],
+              series: selectedView == SelectedView.daySelected
+                  ? <ScatterSeries<GlucoseTimedData, DateTime>>[
+                      ScatterSeries<GlucoseTimedData, DateTime>(
+                        dataSource: dataList,
+                        xValueMapper: (GlucoseTimedData values, _) =>
+                            values.timeStamp,
+                        yValueMapper: (GlucoseTimedData values, _) =>
+                            values.value,
+                        animationDuration: 500,
+                        color: Colors.amber,
+                        markerSettings: MarkerSettings(
+                          width: 8.sp,
+                          height: 8.sp,
+                        ),
+                        dataLabelSettings: DataLabelSettings(
+                          isVisible: true,
+                          textStyle: TextStyle(
+                            color: Color(0xFF6F6F6F),
+                            fontWeight: FontWeight.w400,
+                            fontSize: 10.sp,
+                          ),
+                        ),
+                        // gradient: LinearGradient(
+                        //   colors: [Color.fromARGB(255, 255, 0, 0), Color(0x0Fffffff)],
+                        //   begin: Alignment.topCenter,
+                        //   end: Alignment.bottomCenter,
+                        // ),
+                      ),
+                    ]
+                  : <LineSeries<GlucoseTimedData, DateTime>>[
+                      LineSeries<GlucoseTimedData, DateTime>(
+                          dataSource: dataList,
+                          xValueMapper: (GlucoseTimedData values, _) =>
+                              values.timeStamp,
+                          yValueMapper: (GlucoseTimedData values, _) =>
+                              values.value,
+                          color: Color(0x9F49CAAE)
+                          // gradient: LinearGradient(
+                          //   colors: [Color.fromARGB(255, 255, 0, 0), Color(0x0Fffffff)],
+                          //   begin: Alignment.topCenter,
+                          //   end: Alignment.bottomCenter,
+                          // ),
+                          ),
+                    ],
             ),
+          ),
+          SizedBox(
+            height: 10.sp,
           ),
           GraphController(
             actualDateTime: this.actualDateTime,

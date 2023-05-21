@@ -12,8 +12,11 @@ class GlucoLoadingState extends GlucoHistoryState {}
 
 // List<Map<String, dynamic>> data;
 class GlucoDataloadedState extends GlucoHistoryState {
-  List<GlucoseTimedData> dataList;
-  GlucoDataloadedState(this.dataList);
+  List<GlucoseTimedData> smallDataList, bigDataList;
+  GlucoDataloadedState({
+    required this.smallDataList,
+    required this.bigDataList,
+  });
   @override
-  List<Object?> get props => [this.dataList];
+  List<Object?> get props => [this.smallDataList, this.bigDataList];
 }

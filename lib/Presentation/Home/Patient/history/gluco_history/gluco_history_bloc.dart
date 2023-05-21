@@ -30,11 +30,12 @@ class GlucoHistoryBloc extends Bloc<GlucoHistoryEvent, GlucoHistoryState> {
         smallList = GraphService.glucoDayData(
             bigList: TimedData(data), dateTime: dateTime);
       for (int i = 0; i < smallList.length; i++) {
-        log(smallList[i].value.toString() +
-            " - " +
-            smallList[i].timeStamp.toString());
+        // log(smallList[i].value.toString() +
+        //     " - " +
+        //     smallList[i].timeStamp.toString());
       }
-      emit(GlucoDataloadedState(smallList));
+      emit(GlucoDataloadedState(
+          smallDataList: smallList, bigDataList: timedData.glucose));
     });
   }
 }

@@ -194,7 +194,6 @@ class _GlucoHistoryScreenState extends State<GlucoHistoryScreen> {
                               height: 200.sp,
                               child: HistoryNumericDataField(
                                 dataList: state.bigDataList,
-                                startDateTime: dateTime,
                               ),
                             )
                           : Container(),
