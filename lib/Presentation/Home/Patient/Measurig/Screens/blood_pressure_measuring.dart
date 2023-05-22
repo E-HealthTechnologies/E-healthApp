@@ -34,9 +34,11 @@ class _BloodPressureScreenState extends State<BloodPressureScreen> {
               for (int i = 1; i < 50; i++) {
                 for (int i = 0; i < 4; i++) {
                   var rnd = Random();
-                  int min = 55;
-                  int max = 120;
-                  int value = min + rnd.nextInt(max - min);
+                  int systoMin = 90, diastoMin = 60;
+                  int systoMax = 120, diastoMax = 75;
+                  int systoValue = systoMin + rnd.nextInt(systoMax - systoMin);
+                  int diastoValue =
+                      diastoMin + rnd.nextInt(diastoMax - diastoMin);
                   final json = {
                     // 'Date': DateFormat.yMd().add_jm().format(
                     //       DateTime.now().add(
@@ -49,13 +51,14 @@ class _BloodPressureScreenState extends State<BloodPressureScreen> {
                     //     ),
 
                     'Date': refDate,
-                    'Value': value,
+                    'systolicPressure': systoValue,
+                    'diastolicPressure': diastoValue,
                     // 'Value big': value~/2,
                   };
                   StoreDataServices service = StoreDataServices();
                   service.uploadData(
                     uid: widget.uid,
-                    type: 'Heart beat',
+                    type: 'Blood Pressure',
                     data: json,
                   );
                   refDate = refDate.add(Duration(

@@ -44,7 +44,11 @@ class HistoryDataRow extends StatelessWidget {
               alignment: Alignment.centerLeft,
               child: RichText(
                 text: TextSpan(
-                  text: timedData.value.toString(),
+                  text: timedData is BloodPressureTimedData
+                      ? timedData.systolicPressure.toString() +
+                          ' / ' +
+                          timedData.diastolicPressure.toString()
+                      : timedData.value.toString(),
                   style: TextStyle(
                     color: Color(0x8F0F0F0F),
                     fontSize: 13.sp,
@@ -58,7 +62,9 @@ class HistoryDataRow extends StatelessWidget {
                               ? " °C"
                               : timedData is HeartBeatTimedData
                                   ? " bpm"
-                                  : "",
+                                  : timedData is BloodPressureTimedData
+                                      ? " mmHg"
+                                      : "",
                       style: TextStyle(
                         color: Color(0x8F0F0F0F),
                         fontSize: 10.sp,
@@ -95,15 +101,15 @@ class HistoryNumericDataField extends StatelessWidget {
   List<Widget> historyNumericDataRows({
     required List<dynamic> dataList,
   }) {
-    List<Widget> historyNumericRowsList = [];
+    List<Widget> historyOneNumericRowsList = [];
     for (int i = dataList.length - 1; i >= 0; i--) {
-      historyNumericRowsList.add(
+      historyOneNumericRowsList.add(
         HistoryDataRow(
           timedData: dataList[i],
         ),
       );
     }
-    return historyNumericRowsList;
+    return historyOneNumericRowsList;
   }
 
   @override

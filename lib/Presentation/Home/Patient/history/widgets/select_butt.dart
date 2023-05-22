@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 //ignore: must_be_immutable
 class TransButtonText extends StatelessWidget {
   String lable;
+  Color? baseColor;
   Color _buttColorOff = Color(0x4F2F2F2F);
   Color _buttColorOffL = Color(0x1F2F2F2F);
   Color _buttColorOn = Color(0x9F49CAAE);
@@ -15,10 +16,14 @@ class TransButtonText extends StatelessWidget {
     required this.lable,
     this.state = true,
     required this.onTab,
+    this.baseColor,
   });
 
   @override
   Widget build(BuildContext context) {
+    _buttColorOn = baseColor ?? Color(0x9F49CAAE);
+    _buttColorOnL =
+        baseColor?.withOpacity(baseColor!.opacity / 5) ?? Color(0x3F49CAAE);
     return InkWell(
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 7, vertical: 2),

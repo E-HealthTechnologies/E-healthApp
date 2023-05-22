@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:math';
 
 import 'package:e_health/Presentation/Home/Models/data_enums.dart';
 
@@ -169,6 +170,67 @@ class GraphService {
     return avgList;
   }
 
+  static List<BloodPressureTimedData> bloodPressureDayData(
+      {required TimedData bigList, required DateTime dateTime}) {
+    List<BloodPressureTimedData> dayList = [];
+    for (int i = 0; i < bigList.bloodPressure.length; i++) {
+      if (bigList.bloodPressure[i].timeStamp.day == dateTime.day &&
+          bigList.bloodPressure[i].timeStamp.month == dateTime.month &&
+          bigList.bloodPressure[i].timeStamp.year == dateTime.year) {
+        dayList.add(bigList.bloodPressure[i]);
+      }
+    }
+    dayList.sort((a, b) {
+      return a.timeStamp.compareTo(b.timeStamp);
+    });
+    return dayList;
+  }
+
+  static List<BloodPressureTimedData> bloodPressureMonthData(
+      {required TimedData bigList, required DateTime dateTime}) {
+    List<BloodPressureTimedData> monthList = [], avgList = [];
+    int daysInMonth = DateTime(dateTime.year, dateTime.month + 1, 0).day;
+    if (bigList.bloodPressure.length == 0) return [];
+    for (int i = 0; i < bigList.bloodPressure.length; i++) {
+      if (bigList.bloodPressure[i].timeStamp.month == dateTime.month &&
+          bigList.bloodPressure[i].timeStamp.year == dateTime.year) {
+        monthList.add(bigList.bloodPressure[i]);
+      }
+    }
+
+    monthList.sort((a, b) {
+      return b.timeStamp.compareTo(a.timeStamp);
+    });
+    for (int i = 0; i <= daysInMonth; i++) {
+      int dayAvgSysto = 0, dayAvgDiasto = 0;
+      for (int e = 0; e < monthList.length; e++) {
+        if (monthList[e].timeStamp.day == i) {
+          if (monthList[e].diastolicPressure != 0) {
+            if (dayAvgSysto == 0) {
+              dayAvgSysto += monthList[e].systolicPressure;
+              dayAvgDiasto += monthList[e].diastolicPressure;
+            } else {
+              dayAvgSysto += monthList[e].systolicPressure;
+              dayAvgDiasto += monthList[e].diastolicPressure;
+              dayAvgSysto = dayAvgSysto ~/ 2;
+              dayAvgDiasto = dayAvgDiasto ~/ 2;
+            }
+          }
+        }
+      }
+      if (dayAvgDiasto != 0)
+        avgList.add(
+          BloodPressureTimedData(
+            timeStamp: DateTime(
+                monthList[0].timeStamp.year, monthList[0].timeStamp.month, i),
+            diastolicPressure: dayAvgDiasto,
+            systolicPressure: dayAvgSysto,
+          ),
+        );
+    }
+    return avgList;
+  }
+
   static double maxValue(List<dynamic> dataList) {
     if (dataList is List<GlucoseTimedData>) {
       return dataList
@@ -187,6 +249,22 @@ class GraphService {
               (current, next) => current.value > next.value ? current : next)
           .value
           .toDouble();
+    } else if (dataList is List<BloodPressureTimedData>) {
+      return max(
+          dataList
+              .reduce((current, next) =>
+                  current.systolicPressure > next.systolicPressure
+                      ? current
+                      : next)
+              .systolicPressure
+              .toDouble(),
+          dataList
+              .reduce((current, next) =>
+                  current.diastolicPressure > next.diastolicPressure
+                      ? current
+                      : next)
+              .diastolicPressure
+              .toDouble());
     } else
       return -1;
   }
@@ -209,6 +287,22 @@ class GraphService {
               (current, next) => current.value < next.value ? current : next)
           .value
           .toDouble();
+    } else if (dataList is List<BloodPressureTimedData>) {
+      return min(
+          dataList
+              .reduce((current, next) =>
+                  current.systolicPressure < next.systolicPressure
+                      ? current
+                      : next)
+              .systolicPressure
+              .toDouble(),
+          dataList
+              .reduce((current, next) =>
+                  current.diastolicPressure < next.diastolicPressure
+                      ? current
+                      : next)
+              .diastolicPressure
+              .toDouble());
     } else
       return -1;
   }
@@ -224,7 +318,7 @@ class TimedData {
   List<GlucoseTimedData> glucose = [];
   List<TemperatureTimedData> temperature = [];
   List<HeartBeatTimedData> heartBeat = [];
-
+  List<BloodPressureTimedData> bloodPressure = [];
   TimedData(List<Map<String, dynamic>> measurementsModel, DataField dataField) {
     if (measurementsModel.length > 0) {
       for (int i = 0; i < measurementsModel.length; i++) {
@@ -241,6 +335,13 @@ class TimedData {
           heartBeat.add(HeartBeatTimedData(
               measurementsModel[i]['Date'].toDate(),
               measurementsModel[i]['Value']));
+        }
+        if (dataField == DataField.bloodPressure) {
+          bloodPressure.add(BloodPressureTimedData(
+            timeStamp: measurementsModel[i]['Date'].toDate(),
+            diastolicPressure: measurementsModel[i]['diastolicPressure'],
+            systolicPressure: measurementsModel[i]['systolicPressure'],
+          ));
         }
       }
     }

@@ -7,6 +7,12 @@ class CriticalValues {
   static const int heartBeatMaxNormal = 100;
   static const int heartBeatMinNormal = 60;
 
+  static const int bloodPressureSystoMaxNormal = 120;
+  static const int bloodPressureSystoMinNormal = 90;
+
+  static const int bloodPressureDiastoMaxNormal = 80;
+  static const int bloodPressureDiastoMinNormal = 60;
+
   static const double temperatureMaxNormal = 38.1;
   static const double temperatureMinNormal = 37;
 
@@ -29,6 +35,16 @@ class CriticalValues {
     if (data is HeartBeatTimedData) if (data.value < heartBeatMinNormal)
       return -1;
     else if (data.value > heartBeatMaxNormal)
+      return 1;
+    else
+      return 0;
+
+    if (data is BloodPressureTimedData) if (data.systolicPressure <
+            bloodPressureSystoMinNormal ||
+        data.diastolicPressure < bloodPressureDiastoMinNormal)
+      return -1;
+    else if (data.systolicPressure > bloodPressureSystoMaxNormal ||
+        data.diastolicPressure > bloodPressureDiastoMaxNormal)
       return 1;
     else
       return 0;

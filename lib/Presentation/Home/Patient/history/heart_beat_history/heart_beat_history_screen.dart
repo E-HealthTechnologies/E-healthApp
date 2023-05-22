@@ -1,11 +1,9 @@
-import 'dart:developer';
-
 import 'package:e_health/Presentation/Home/Models/data_enums.dart';
 import 'package:e_health/Presentation/Home/Patient/history/heart_beat_history/heart_beat_history_bloc.dart';
 import 'package:e_health/Presentation/Home/Patient/history/heart_beat_history/heart_beat_history_event.dart';
 import 'package:e_health/Presentation/Home/Patient/history/heart_beat_history/heart_beat_history_state.dart';
 import 'package:e_health/Presentation/Home/Patient/history/widgets/data_scroll.dart';
-import 'package:e_health/Presentation/Home/Patient/history/widgets/gluco_graph.dart';
+import 'package:e_health/Presentation/Home/Patient/history/widgets/history_graph.dart';
 import 'package:e_health/Services/graph_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';

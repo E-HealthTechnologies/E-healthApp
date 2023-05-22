@@ -39,7 +39,7 @@ class _PatHomeScreenState extends State<PatHistoryScreen> {
               // color: Theme.of(context).colorScheme.secondary,
               children: [
                 TemperatureHistoryScreen(uid: user!.uid),
-                BloodPressureHistory(),
+                BloodPressureHistoryScreen(uid: user!.uid),
                 GlucoHistoryScreen(uid: user!.uid),
                 HeartBeatHistoryScreen(uid: user!.uid),
               ],

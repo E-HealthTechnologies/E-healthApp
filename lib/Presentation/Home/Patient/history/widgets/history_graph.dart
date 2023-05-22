@@ -11,9 +11,11 @@ class HistoryDataGraph extends StatelessWidget {
   List<TemperatureTimedData> temperatureDataList = [];
   List<dynamic> dataList = [];
   Function dayTab, monthTab, weekTab;
+  Function? onSystoTab, onDiastoTab;
   SelectedView selectedView;
   DateTime actualDateTime;
   Function next, previous;
+  bool isDiastoVisible = true, isSystoVisible = true;
   HistoryDataGraph({
     super.key,
     required this.dataList,
@@ -24,7 +26,14 @@ class HistoryDataGraph extends StatelessWidget {
     required this.actualDateTime,
     required this.next,
     required this.previous,
-  });
+    bool? isDiastoVisible,
+    bool? isSystoVisible,
+    this.onDiastoTab,
+    this.onSystoTab,
+  }) {
+    this.isDiastoVisible = isDiastoVisible ?? true;
+    this.isSystoVisible = isSystoVisible ?? true;
+  }
 
   List<ScatterSeries<dynamic, DateTime>> oneValueDotSeries() {
     return [
@@ -72,6 +81,102 @@ class HistoryDataGraph extends StatelessWidget {
     ];
   }
 
+  List<ScatterSeries<BloodPressureTimedData, DateTime>>
+      bloodPressureDotSeries() {
+    return [
+      ScatterSeries<BloodPressureTimedData, DateTime>(
+        isVisible: isDiastoVisible,
+        dataSource: dataList as List<BloodPressureTimedData>,
+        xValueMapper: (BloodPressureTimedData values, _) => values.timeStamp,
+        yValueMapper: (BloodPressureTimedData values, _) =>
+            values.diastolicPressure,
+        animationDuration: 500,
+        color: Colors.amber,
+        markerSettings: MarkerSettings(
+          width: 8.sp,
+          height: 8.sp,
+        ),
+        dataLabelSettings: DataLabelSettings(
+          isVisible: true,
+          textStyle: TextStyle(
+            color: Color(0xFF6F6F6F),
+            fontWeight: FontWeight.w400,
+            fontSize: 10.sp,
+          ),
+        ),
+      ),
+      ScatterSeries<BloodPressureTimedData, DateTime>(
+        isVisible: isSystoVisible,
+        dataSource: dataList as List<BloodPressureTimedData>,
+        xValueMapper: (BloodPressureTimedData values, _) => values.timeStamp,
+        yValueMapper: (BloodPressureTimedData values, _) =>
+            values.systolicPressure,
+        animationDuration: 500,
+        color: Color(0x9F49CAAE),
+        markerSettings: MarkerSettings(
+          width: 8.sp,
+          height: 8.sp,
+        ),
+        dataLabelSettings: DataLabelSettings(
+          isVisible: true,
+          textStyle: TextStyle(
+            color: Color(0xFF6F6F6F),
+            fontWeight: FontWeight.w400,
+            fontSize: 10.sp,
+          ),
+        ),
+      ),
+    ];
+  }
+
+  List<XyDataSeries<BloodPressureTimedData, DateTime>>
+      bloodPressureLineSeries() {
+    return <XyDataSeries<BloodPressureTimedData, DateTime>>[
+      LineSeries<BloodPressureTimedData, DateTime>(
+        isVisible: isSystoVisible,
+        dataSource: dataList as List<BloodPressureTimedData>,
+        xValueMapper: (BloodPressureTimedData values, _) => values.timeStamp,
+        yValueMapper: (BloodPressureTimedData values, _) =>
+            values.systolicPressure,
+        color: Color(0x9F49CAAE),
+      ),
+      AreaSeries<BloodPressureTimedData, DateTime>(
+        isVisible: isSystoVisible,
+        dataSource: dataList as List<BloodPressureTimedData>,
+        xValueMapper: (BloodPressureTimedData values, _) => values.timeStamp,
+        yValueMapper: (BloodPressureTimedData values, _) =>
+            values.systolicPressure,
+        color: Color(0xFF49CAAE),
+        gradient: LinearGradient(
+          colors: [Color(0x4F49CAAE), Color(0x0Fffffff)],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        ),
+      ),
+      LineSeries<BloodPressureTimedData, DateTime>(
+        isVisible: isDiastoVisible,
+        dataSource: dataList as List<BloodPressureTimedData>,
+        xValueMapper: (BloodPressureTimedData values, _) => values.timeStamp,
+        yValueMapper: (BloodPressureTimedData values, _) =>
+            values.diastolicPressure,
+        color: Colors.amber,
+      ),
+      AreaSeries<BloodPressureTimedData, DateTime>(
+        isVisible: isDiastoVisible,
+        dataSource: dataList as List<BloodPressureTimedData>,
+        xValueMapper: (BloodPressureTimedData values, _) => values.timeStamp,
+        yValueMapper: (BloodPressureTimedData values, _) =>
+            values.diastolicPressure,
+        color: Colors.amber,
+        gradient: LinearGradient(
+          colors: [Colors.amber.withOpacity(0.3), Color(0x0Fffffff)],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        ),
+      ),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     double minValue = 30, maxValue = 140;
@@ -81,7 +186,7 @@ class HistoryDataGraph extends StatelessWidget {
     }
 
     return Container(
-      padding: EdgeInsets.all(5.sp),
+      padding: EdgeInsets.symmetric(horizontal: 5.sp),
       color: Color(0x00f5f5f5),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -127,21 +232,45 @@ class HistoryDataGraph extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(
-                width: 10.sp,
-              ),
-              SizedBox(
-                width: 5.sp,
-              ),
             ],
           ),
           SizedBox(
-            height: 10.sp,
+            height: 19.sp,
           ),
+          dataList is List<BloodPressureTimedData>
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TransButtonText(
+                      lable: 'Diastolic',
+                      baseColor: Colors.amber,
+                      onTab: () {
+                        onDiastoTab!();
+                      },
+                      state: isDiastoVisible,
+                    ),
+                    SizedBox(
+                      width: 5.sp,
+                    ),
+                    TransButtonText(
+                      lable: 'Systolic',
+                      onTab: () {
+                        onSystoTab!();
+                      },
+                      state: isSystoVisible,
+                    ),
+                  ],
+                )
+              : Container(),
+          dataList is List<BloodPressureTimedData>
+              ? SizedBox(
+                  height: 10.sp,
+                )
+              : Container(),
           Container(
             color: Color(0xf5f5f5),
             // color: Colors.white,
-            height: 200.sp,
+            height: dataList is List<BloodPressureTimedData> ? 180.sp : 200.sp,
             child: SfCartesianChart(
               backgroundColor: Color(0x00f5f5f5),
               borderWidth: 0,
@@ -176,8 +305,12 @@ class HistoryDataGraph extends StatelessWidget {
               // primaryXAxis: CategoryAxis(),
 
               series: selectedView == SelectedView.daySelected
-                  ? oneValueDotSeries()
-                  : oneValueLineSeries(),
+                  ? dataList is List<BloodPressureTimedData>
+                      ? bloodPressureDotSeries()
+                      : oneValueDotSeries()
+                  : dataList is List<BloodPressureTimedData>
+                      ? bloodPressureLineSeries()
+                      : oneValueLineSeries(),
             ),
           ),
           SizedBox(

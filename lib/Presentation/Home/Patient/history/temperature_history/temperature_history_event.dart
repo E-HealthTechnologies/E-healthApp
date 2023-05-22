@@ -1,6 +1,6 @@
 import 'package:e_health/Presentation/Home/Models/data_enums.dart';
 import 'package:equatable/equatable.dart';
-import 'package:e_health/Presentation/Home/Patient/history/widgets/gluco_graph.dart';
+import 'package:e_health/Presentation/Home/Patient/history/widgets/history_graph.dart';
 
 class TemperatureHistoryEvent extends Equatable {
   @override
