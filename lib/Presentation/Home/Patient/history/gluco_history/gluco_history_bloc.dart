@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:e_health/Presentation/Home/Models/data_enums.dart';
 import 'package:e_health/Presentation/Home/Patient/history/gluco_history/gluco_history_event.dart';
 import 'package:e_health/Presentation/Home/Patient/history/gluco_history/gluco_history_state.dart';
 import 'package:e_health/Presentation/Home/Patient/history/widgets/gluco_graph.dart';
@@ -17,18 +18,18 @@ class GlucoHistoryBloc extends Bloc<GlucoHistoryEvent, GlucoHistoryState> {
       TimedData timedData;
       GetDataServices service = GetDataServices();
       data = await service.getMeasurementData(uid: event.uid, type: 'Glucose');
-      timedData = TimedData(data);
+      timedData = TimedData(data, DataField.glucoze);
       DateTime dateTime = event.dateTime ?? timedData.glucose[0].timeStamp;
 
       if (event.selectedView == SelectedView.monthSelected)
         smallList = GraphService.glucoMonthData(
-            bigList: TimedData(data), dateTime: dateTime);
+            bigList: TimedData(data, DataField.glucoze), dateTime: dateTime);
       else if (event.selectedView == SelectedView.weeekSelected)
         smallList = GraphService.glucoMonthData(
-            bigList: TimedData(data), dateTime: dateTime);
+            bigList: TimedData(data, DataField.glucoze), dateTime: dateTime);
       else
         smallList = GraphService.glucoDayData(
-            bigList: TimedData(data), dateTime: dateTime);
+            bigList: TimedData(data, DataField.glucoze), dateTime: dateTime);
       for (int i = 0; i < smallList.length; i++) {
         // log(smallList[i].value.toString() +
         //     " - " +

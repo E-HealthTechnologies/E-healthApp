@@ -1,25 +1,20 @@
+import 'package:e_health/Presentation/Home/Models/data_enums.dart';
 import 'package:e_health/Presentation/Home/Patient/history/widgets/graph_controller.dart';
 import 'package:e_health/Presentation/Home/Patient/history/widgets/select_butt.dart';
 import 'package:e_health/Services/graph_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-enum SelectedView {
-  daySelected,
-  monthSelected,
-  weeekSelected,
-}
-
-class GlocoGraph extends StatelessWidget {
-  late List<GlucoseTimedData> dataList;
-  late Function dayTab, monthTab, weekTab;
-  late SelectedView selectedView;
+class HistoryDataGraph extends StatelessWidget {
+  List<GlucoseTimedData> glucoDataList = [];
+  List<TemperatureTimedData> temperatureDataList = [];
+  List<dynamic> dataList = [];
+  Function dayTab, monthTab, weekTab;
+  SelectedView selectedView;
   DateTime actualDateTime;
   Function next, previous;
-  GlocoGraph({
+  HistoryDataGraph({
     super.key,
     required this.dataList,
     required this.selectedView,
@@ -31,20 +26,58 @@ class GlocoGraph extends StatelessWidget {
     required this.previous,
   });
 
-  double minValue = 30, maxValue = 140;
+  List<ScatterSeries<dynamic, DateTime>> oneValueDotSeries() {
+    return [
+      ScatterSeries<dynamic, DateTime>(
+        dataSource: dataList,
+        xValueMapper: (dynamic values, _) => values.timeStamp,
+        yValueMapper: (dynamic values, _) => values.value,
+        animationDuration: 500,
+        color: Colors.amber,
+        markerSettings: MarkerSettings(
+          width: 8.sp,
+          height: 8.sp,
+        ),
+        dataLabelSettings: DataLabelSettings(
+          isVisible: true,
+          textStyle: TextStyle(
+            color: Color(0xFF6F6F6F),
+            fontWeight: FontWeight.w400,
+            fontSize: 10.sp,
+          ),
+        ),
+      ),
+    ];
+  }
+
+  List<XyDataSeries<dynamic, DateTime>> oneValueLineSeries() {
+    return <XyDataSeries<dynamic, DateTime>>[
+      LineSeries<dynamic, DateTime>(
+        dataSource: dataList,
+        xValueMapper: (dynamic values, _) => values.timeStamp,
+        yValueMapper: (dynamic values, _) => values.value,
+        color: Color(0x9F49CAAE),
+      ),
+      AreaSeries<dynamic, DateTime>(
+        dataSource: dataList,
+        xValueMapper: (dynamic values, _) => values.timeStamp,
+        yValueMapper: (dynamic values, _) => values.value,
+        color: Color(0xFF49CAAE),
+        gradient: LinearGradient(
+          colors: [Color(0x4F49CAAE), Color(0x0Fffffff)],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        ),
+      ),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
+    double minValue = 30, maxValue = 140;
     if (dataList.length > 1) {
-      maxValue = dataList
-          .reduce(
-              (current, next) => current.value > next.value ? current : next)
-          .value
-          .toDouble();
-      minValue = dataList
-          .reduce(
-              (current, next) => current.value < next.value ? current : next)
-          .value
-          .toDouble();
+      maxValue = GraphService.maxValue(dataList);
+      minValue = GraphService.minValue(dataList);
     }
 
     return Container(
@@ -141,52 +174,10 @@ class GlocoGraph extends StatelessWidget {
                 ),
               ),
               // primaryXAxis: CategoryAxis(),
-              palette: <Color>[Colors.red],
 
               series: selectedView == SelectedView.daySelected
-                  ? <ScatterSeries<GlucoseTimedData, DateTime>>[
-                      ScatterSeries<GlucoseTimedData, DateTime>(
-                        dataSource: dataList,
-                        xValueMapper: (GlucoseTimedData values, _) =>
-                            values.timeStamp,
-                        yValueMapper: (GlucoseTimedData values, _) =>
-                            values.value,
-                        animationDuration: 500,
-                        color: Colors.amber,
-                        markerSettings: MarkerSettings(
-                          width: 8.sp,
-                          height: 8.sp,
-                        ),
-                        dataLabelSettings: DataLabelSettings(
-                          isVisible: true,
-                          textStyle: TextStyle(
-                            color: Color(0xFF6F6F6F),
-                            fontWeight: FontWeight.w400,
-                            fontSize: 10.sp,
-                          ),
-                        ),
-                        // gradient: LinearGradient(
-                        //   colors: [Color.fromARGB(255, 255, 0, 0), Color(0x0Fffffff)],
-                        //   begin: Alignment.topCenter,
-                        //   end: Alignment.bottomCenter,
-                        // ),
-                      ),
-                    ]
-                  : <LineSeries<GlucoseTimedData, DateTime>>[
-                      LineSeries<GlucoseTimedData, DateTime>(
-                          dataSource: dataList,
-                          xValueMapper: (GlucoseTimedData values, _) =>
-                              values.timeStamp,
-                          yValueMapper: (GlucoseTimedData values, _) =>
-                              values.value,
-                          color: Color(0x9F49CAAE)
-                          // gradient: LinearGradient(
-                          //   colors: [Color.fromARGB(255, 255, 0, 0), Color(0x0Fffffff)],
-                          //   begin: Alignment.topCenter,
-                          //   end: Alignment.bottomCenter,
-                          // ),
-                          ),
-                    ],
+                  ? oneValueDotSeries()
+                  : oneValueLineSeries(),
             ),
           ),
           SizedBox(

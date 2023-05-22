@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:math';
 
+import 'package:e_health/Presentation/Home/Models/data_enums.dart';
 import 'package:e_health/Presentation/Home/Patient/history/gluco_history/gluco_history_bloc.dart';
 import 'package:e_health/Presentation/Home/Patient/history/gluco_history/gluco_history_event.dart';
 import 'package:e_health/Presentation/Home/Patient/history/gluco_history/gluco_history_state.dart';
@@ -28,7 +29,7 @@ class _GlucoHistoryScreenState extends State<GlucoHistoryScreen> {
 
   SelectedView selectedView = SelectedView.daySelected;
   DateTime dateTime = DateTime.now();
-  List<GlucoseTimedData> smallList = [];
+  List<GlucoseTimedData> smallList = [], bigList = [];
   static const Duration oneMonth = Duration(days: 30),
       oneDay = Duration(days: 1),
       oneWeek = Duration(days: 7);
@@ -42,6 +43,10 @@ class _GlucoHistoryScreenState extends State<GlucoHistoryScreen> {
             context.read<GlucoHistoryBloc>().add(
                 GlucoLoadData(uid: widget.uid, selectedView: selectedView));
           }
+          if (state is GlucoDataloadedState) {
+            bigList = state.bigDataList;
+            smallList = state.smallDataList;
+          }
           return Padding(
             padding: EdgeInsets.all(8.0),
             child: Container(
@@ -54,79 +59,10 @@ class _GlucoHistoryScreenState extends State<GlucoHistoryScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  // Expanded(
-                  //   child: Center(
-                  //     child: ElevatedButton(
-                  //       onPressed: () async {
-                  //         // context.read<GlucoHistoryBloc>().add(GlucoLoadData(
-                  //         //     uid: widget.uid,
-                  //         //     dateTime: dateTime,
-                  //         //     selectedView: selectedView));
-                  //         DateTime refDate = DateTime.now();
-                  //         for (int i = 1; i < 50; i++) {
-                  //           for (int i = 0; i < 4; i++) {
-                  //             var rnd = Random();
-                  //             int min = 70;
-                  //             int max = 150;
-                  //             int value = min + rnd.nextInt(max - min);
-                  //             final json = {
-                  //               // 'Date': DateFormat.yMd().add_jm().format(
-                  //               //       DateTime.now().add(
-                  //               //         Duration(
-                  //               //           days: Random().nextInt(1),
-                  //               //           minutes: 20 + Random().nextInt(39),
-                  //               //           hours: Random().nextInt(23),
-                  //               //         ),
-                  //               //       ),
-                  //               //     ),
-
-                  //               'Date': refDate,
-                  //               'Value': value,
-                  //               // 'Value big': value~/2,
-                  //             };
-                  //             StoreDataServices service = StoreDataServices();
-                  //             service.uploadData(
-                  //               uid: widget.uid,
-                  //               type: 'Glucose',
-                  //               data: json,
-                  //             );
-                  //             refDate = refDate.add(Duration(
-                  //               minutes: 20 + Random().nextInt(39),
-                  //               hours: Random().nextInt(8),
-                  //             ));
-                  //           }
-                  //           refDate = refDate.add(Duration(
-                  //             days: 1,
-                  //           ));
-                  //         }
-                  //       },
-                  //       style: ElevatedButton.styleFrom(
-                  //         backgroundColor: Color(0xff3f51b5),
-                  //         minimumSize: Size(150.sp, 30.sp),
-                  //         maximumSize: Size(150.sp, 40.sp),
-                  //         shape: RoundedRectangleBorder(
-                  //           borderRadius: BorderRadius.circular(50.sp),
-                  //         ),
-                  //       ),
-                  //       child: Center(
-                  //         child: Text(
-                  //           'Measure',
-                  //           style: TextStyle(
-                  //             fontSize: 14.sp,
-                  //             fontWeight: FontWeight.w600,
-                  //             color: Color(0xffffffff),
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
                   Column(
                     children: [
-                      GlocoGraph(
-                        dataList: state is GlucoDataloadedState
-                            ? state.smallDataList
-                            : [],
+                      HistoryDataGraph(
+                        dataList: smallList,
                         selectedView: selectedView,
                         dayTab: () {
                           selectedView = SelectedView.daySelected;
@@ -189,14 +125,12 @@ class _GlucoHistoryScreenState extends State<GlucoHistoryScreen> {
                       SizedBox(
                         height: 5.sp,
                       ),
-                      state is GlucoDataloadedState
-                          ? Container(
-                              height: 200.sp,
-                              child: HistoryNumericDataField(
-                                dataList: state.bigDataList,
-                              ),
-                            )
-                          : Container(),
+                      Container(
+                        height: 200.sp,
+                        child: HistoryNumericDataField(
+                          dataList: bigList,
+                        ),
+                      )
                     ],
                   ),
                   // SizedBox(height: 20),

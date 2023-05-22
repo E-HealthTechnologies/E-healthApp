@@ -38,10 +38,10 @@ class _PatHomeScreenState extends State<PatHistoryScreen> {
               color: Color(0x5F49CAAE),
               // color: Theme.of(context).colorScheme.secondary,
               children: [
-                TemperatureHistory(),
+                TemperatureHistoryScreen(uid: user!.uid),
                 BloodPressureHistory(),
                 GlucoHistoryScreen(uid: user!.uid),
-                HeartBeatHistory(),
+                HeartBeatHistoryScreen(uid: user!.uid),
               ],
 
               selectedTextStyle: const TextStyle(
