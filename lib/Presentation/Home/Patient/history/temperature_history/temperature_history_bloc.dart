@@ -13,7 +13,6 @@ class TemperatureHistoryBloc
     on<TemperatureLoadData>((event, emit) async {
       List<TemperatureTimedData> smallList = [];
 
-      emit(TemperatureLoadingState());
       List<Map<String, dynamic>> data;
       TimedData timedData;
       GetDataServices service = GetDataServices();
