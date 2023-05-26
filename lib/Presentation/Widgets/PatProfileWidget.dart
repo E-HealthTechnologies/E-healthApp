@@ -12,7 +12,7 @@ class PatProfileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.fromLTRB(0.sp, 0.sp, 0.sp, 20.sp),
+      // margin: EdgeInsets.fromLTRB(0.sp, 0.sp, 0.sp, 20.sp),
       width: 330.sp,
       height: 128.sp,
       decoration: BoxDecoration(

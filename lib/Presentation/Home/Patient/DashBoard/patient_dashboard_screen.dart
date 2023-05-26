@@ -64,9 +64,11 @@ class _PatHomeScreenState extends State<PatDashScreen> {
                                 children: [
                                   Center(
                                     child: Padding(
-                                      padding: const EdgeInsets.only(top: 10),
+                                      padding: EdgeInsets.only(top: 0.sp),
                                       child: PatProfileWidget(
-                                        name: state.patient.fName + ' ' + state.patient.lName,
+                                        name: state.patient.fName +
+                                            ' ' +
+                                            state.patient.lName,
                                         age: state.patient.dateOfBirth,
                                         weight: state.patient.weight,
                                         blood: state.patient.blood,
@@ -74,14 +76,14 @@ class _PatHomeScreenState extends State<PatDashScreen> {
                                       ),
                                     ),
                                   ),
-                                  SizedBox(height: 20.sp),
+                                  SizedBox(height: 15.sp),
                                   Text(
                                     'Measurements',
                                     style: TextStyle(
                                         fontWeight: FontWeight.w600,
-                                        fontSize: 30),
+                                        fontSize: 25.sp),
                                   ),
-                                  SizedBox(height: 20.sp),
+                                  SizedBox(height: 15.sp),
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -104,7 +106,7 @@ class _PatHomeScreenState extends State<PatDashScreen> {
                                       ),
                                     ],
                                   ),
-                                  SizedBox(height: 30.sp),
+                                  SizedBox(height: 15.sp),
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -128,6 +130,9 @@ class _PatHomeScreenState extends State<PatDashScreen> {
                                     ],
                                   ),
                                 ],
+                              ),
+                              SizedBox(
+                                height: 15.sp,
                               ),
                               BlueButton(
                                 onPressed: () {
@@ -164,11 +169,11 @@ class InfoBoxWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(22.69.sp, 17.53.sp, 18.7.sp, 30.sp),
+      padding: EdgeInsets.fromLTRB(22.69.sp, 17.53.sp, 18.7.sp, 20.sp),
       width: 160.sp,
       height: 140.sp,
       decoration: BoxDecoration(
-        color: Color(0xfff5e1e9),
+        color: Color(0x5F49CAAE),
         borderRadius: BorderRadius.circular(24.sp),
       ),
       child: Column(
@@ -191,7 +196,7 @@ class InfoBoxWidget extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: TextStyle(fontWeight: FontWeight.w400, fontSize: 20.sp),
+                style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18.sp),
               ),
               FittedBox(
                 child: Text(

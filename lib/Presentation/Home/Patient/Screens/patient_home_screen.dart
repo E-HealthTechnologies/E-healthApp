@@ -4,8 +4,9 @@ import 'package:e_health/Presentation/Home/Drawer%20Page/drawerPage.dart';
 import 'package:e_health/Presentation/Home/Patient/DashBoard/bloc/pat_dash_board_bloc.dart';
 import 'package:e_health/Presentation/Home/Patient/DashBoard/patient_dashboard_screen.dart';
 import 'package:e_health/Presentation/Home/Patient/Measurig/patient_measuring_screen.dart';
-import 'package:e_health/Presentation/Home/Patient/Screens/patient_history_screen.dart';
+import 'package:e_health/Presentation/Home/Patient/history/history_screen.dart';
 import 'package:e_health/Presentation/Home/Patient/bloc/patient_home_bloc.dart';
+import 'package:e_health/Presentation/Widgets/handshake_diag/handshake_diag_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -55,7 +56,7 @@ class _PatHomeScreenState extends State<PatHomeScreen> {
 
     _pages = [
       PatDashScreen(),
-      PatMeasuringScreen(),
+      GlucoMeasurmentScreen(),
       PatHistoryScreen(),
     ];
   }
@@ -96,7 +97,15 @@ class _PatHomeScreenState extends State<PatHomeScreen> {
                       Icons.notifications,
                     ),
                     onPressed: () async {},
-                  )
+                  ),
+                  IconButton(
+                    icon: Icon(
+                      Icons.sensors,
+                    ),
+                    onPressed: () {
+                      HandshakeDiag.showDiag(context);
+                    },
+                  ),
                 ],
               ),
               body: PageView(
@@ -107,11 +116,11 @@ class _PatHomeScreenState extends State<PatHomeScreen> {
               bottomNavigationBar: Container(
                 child: BottomBarSalomon(
                   items: items,
-                  color: Colors.blue,
+                  color: Color(0xff3f51b5),
                   // backgroundColor: Colors.white,
                   backgroundColor: Color(0xfff5f5f5),
                   colorSelected: Colors.white,
-                  backgroundSelected: Colors.blue,
+                  backgroundSelected: Color(0xff3f51b5),
                   borderRadius: BorderRadius.circular(0),
                   indexSelected: state.page,
                   onTap: (index) =>

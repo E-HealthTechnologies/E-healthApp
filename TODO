@@ -1,0 +1,14 @@
+graphs screen:
+    history screen:
+        re arrange data (day, month, week):
+            ✔ data from string @done(23-05-16 17:02)
+            select data by time:
+                ✔ day @done(23-05-16 17:02)
+                ✔ month @done(23-05-16 17:40)
+                ☐ week
+
+    measure screen:
+        ☐ blood pressure
+        ☐ gluco
+        ☐ temperature
+        ☐ heart beat
