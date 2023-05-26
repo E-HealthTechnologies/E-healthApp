@@ -47,12 +47,9 @@ class _PatHomeScreenState extends State<PatDashScreen> {
                           frameRate: FrameRate(120),
                         ),
                       )
-                    : Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Color(0xfff5f5f5),
-                        ),
+                    : SingleChildScrollView(
                         child: Container(
+                          
                           margin:
                               EdgeInsets.fromLTRB(11.sp, 0.sp, 11.sp, 20.sp),
                           child: Column(

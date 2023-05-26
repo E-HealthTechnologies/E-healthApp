@@ -85,7 +85,7 @@ class _PatHomeScreenState extends State<PatHomeScreen> {
           ),
         ],
         child: BlocBuilder<PatHomeBloc, PatHomeState>(
-          builder: (context, state) {
+          builder: (ctx, state) {
             return Scaffold(
               appBar: AppBar(
                 elevation: 0,
@@ -103,7 +103,7 @@ class _PatHomeScreenState extends State<PatHomeScreen> {
                       Icons.sensors,
                     ),
                     onPressed: () {
-                      HandshakeDiag.showDiag(context);
+                      HandshakeDiag.showDiag(ctx);
                     },
                   ),
                 ],

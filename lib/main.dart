@@ -1,11 +1,21 @@
+import 'package:e_health/Presentation/Authentification/Patient/SignUp_pat/screen/patient_sign_up.dart';
 import 'package:e_health/Presentation/Home/Patient/Screens/patient_home_screen.dart';
 import 'package:e_health/Presentation/routing/routes.dart';
 import 'package:e_health/Presentation/routing/transition_page_route_builder.dart';
 import 'package:e_health/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+
+
+
+
+
+
+
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'Presentation/Loading/loading_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,7 +46,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           // home: PatLoginScreen(),
           //initialRoute: '/',
-          home: PatHomeScreen(),
+          home: (PatHomeScreen()),
           onGenerateRoute: (settings) {
             //nothing
             final routes = Routes.getRoutes(settings);

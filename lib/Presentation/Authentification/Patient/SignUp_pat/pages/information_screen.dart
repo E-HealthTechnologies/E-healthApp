@@ -343,7 +343,7 @@ class _InformationScreenState extends State<InformationScreen> {
         child: Container(
           // padding: EdgeInsets.fromLTRB(28 * 1, 131 * 1, 29 * 1, 28 * 1),
           width: double.infinity,
-          height: MediaQuery.of(context).size.height,
+
           decoration: BoxDecoration(
             color: Color(0xfff5f5f5),
             image: DecorationImage(
@@ -389,8 +389,8 @@ class _InformationScreenState extends State<InformationScreen> {
                                 GestureDetector(
                                   onTap: () {
                                     // Navigator.pop(context);
-                                    _patSignUpBloc.add(
-                                        PatChangePageEvent(page: 0));
+                                    _patSignUpBloc
+                                        .add(PatChangePageEvent(page: 0));
                                   },
                                   child: Icon(Icons.arrow_back),
                                 ),

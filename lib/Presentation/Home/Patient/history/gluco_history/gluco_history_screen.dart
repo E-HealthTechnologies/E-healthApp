@@ -55,9 +55,7 @@ class _GlucoHistoryScreenState extends State<GlucoHistoryScreen> {
                 borderRadius: BorderRadius.circular(10),
               ),
               padding: EdgeInsets.all(8.sp),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
+              child: ListView(
                 children: [
                   Column(
                     children: [

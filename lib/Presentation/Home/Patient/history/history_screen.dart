@@ -27,40 +27,38 @@ class _PatHomeScreenState extends State<PatHistoryScreen> {
       child: Scaffold(
         body: Container(
           width: double.infinity,
+          margin: EdgeInsets.fromLTRB(11.sp, 0.sp, 11.sp, 20.sp),
           decoration: BoxDecoration(
             color: Color(0xfff5f5f5),
             // color: Theme.of(context).colorScheme.secondary,
             // color: Color(0xfff5f5f5),
           ),
-          child: Container(
-            margin: EdgeInsets.fromLTRB(11.sp, 0.sp, 11.sp, 20.sp),
-            child: TabContainer(
-              color: Color(0x5F49CAAE),
-              // color: Theme.of(context).colorScheme.secondary,
-              children: [
-                TemperatureHistoryScreen(uid: user!.uid),
-                BloodPressureHistoryScreen(uid: user!.uid),
-                GlucoHistoryScreen(uid: user!.uid),
-                HeartBeatHistoryScreen(uid: user!.uid),
-              ],
+          child: TabContainer(
+            color: Color(0x5F49CAAE),
+            // color: Theme.of(context).colorScheme.secondary,
+            children: [
+              TemperatureHistoryScreen(uid: user!.uid),
+              BloodPressureHistoryScreen(uid: user!.uid),
+              GlucoHistoryScreen(uid: user!.uid),
+              HeartBeatHistoryScreen(uid: user!.uid),
+            ],
 
-              selectedTextStyle: const TextStyle(
-                color: Colors.black,
-                fontSize: 13.0,
-                fontWeight: FontWeight.w500,
-              ),
-              unselectedTextStyle: const TextStyle(
-                color: Colors.black,
-                fontSize: 13.0,
-              ),
-              // isStringTabs: false,
-              tabs: [
-                'Temperature',
-                'Blood Pressure',
-                'Glucose',
-                'Heart Beat',
-              ],
+            selectedTextStyle: const TextStyle(
+              color: Colors.black,
+              fontSize: 13.0,
+              fontWeight: FontWeight.w500,
             ),
+            unselectedTextStyle: const TextStyle(
+              color: Colors.black,
+              fontSize: 13.0,
+            ),
+            // isStringTabs: false,
+            tabs: [
+              'Temperature',
+              'Blood Pressure',
+              'Glucose',
+              'Heart Beat',
+            ],
           ),
         ),
       ),

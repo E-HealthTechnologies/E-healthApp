@@ -54,9 +54,7 @@ class _BloodPressureHistoryScreenState
                 borderRadius: BorderRadius.circular(10),
               ),
               padding: EdgeInsets.symmetric(horizontal: 8.sp, vertical: 5.sp),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
+              child: ListView(
                 children: [
                   Column(
                     children: [

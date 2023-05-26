@@ -25,138 +25,133 @@ class HandshakeDiag {
                   child: Container(
                     height: 200,
                     width: MediaQuery.of(context).size.width - 30,
-                    child: Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        child: Center(
-                          child: state is GotHandshakeRespence
-                              ? Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Lottie.asset(
-                                      'assets/lottie/success.json',
-                                      height: 50,
-                                      frameRate: FrameRate(100),
-                                      repeat: false,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: Center(
+                        child: state is GotHandshakeRespence
+                            ? Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Lottie.asset(
+                                    'assets/lottie/success.json',
+                                    height: 50,
+                                    frameRate: FrameRate(100),
+                                    repeat: false,
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  const Text(
+                                    "Device found",
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w600,
+                                      color: Color(0xFF000000),
                                     ),
-                                    SizedBox(
-                                      height: 20,
-                                    ),
-                                    const Text(
-                                      "Device found",
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(0xFF000000),
+                                  ),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  InkWell(
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(
+                                            10.0), //this right here
+                                        color: const Color(0xFF34C759),
+                                      ),
+                                      height: 30,
+                                      width: 100,
+                                      alignment: Alignment.center,
+                                      child: const Text(
+                                        'Continue',
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w400,
+                                          color: Color(0xFFFFFFFF),
+                                        ),
                                       ),
                                     ),
-                                    const SizedBox(
-                                      height: 20,
-                                    ),
-                                    InkWell(
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(
-                                              10.0), //this right here
-                                          color: const Color(0xFF34C759),
-                                        ),
-                                        height: 30,
-                                        width: 100,
-                                        alignment: Alignment.center,
-                                        child: const Text(
-                                          'Continue',
-                                          style: TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w400,
-                                            color: Color(0xFFFFFFFF),
-                                          ),
+                                    onTap: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ],
+                              )
+                            : state is WaitingHandshakeRespence
+                                ? Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Lottie.asset(
+                                        'assets/lottie/wireless-loading.json',
+                                        height: 80,
+                                        frameRate: FrameRate(120),
+                                      ),
+                                      SizedBox(
+                                        height: 15,
+                                      ),
+                                      const Text(
+                                        'Searching',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 18,
+                                          color: Color(0xFF0F0F0F),
                                         ),
                                       ),
-                                      onTap: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                    ),
-                                  ],
-                                )
-                              : state is WaitingHandshakeRespence
-                                  ? Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Lottie.asset(
-                                          'assets/lottie/wireless-loading.json',
-                                          height: 80,
-                                          frameRate: FrameRate(120),
+                                    ],
+                                  )
+                                : Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Lottie.asset(
+                                        'assets/lottie/failed.json',
+                                        height: 50,
+                                        frameRate: FrameRate(100),
+                                        repeat: false,
+                                      ),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      const Text(
+                                        "No device found",
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w600,
+                                          color: Color(0xFF000000),
                                         ),
-                                        SizedBox(
-                                          height: 15,
-                                        ),
-                                        const Text(
-                                          'Searching',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 18,
-                                            color: Color(0xFF0F0F0F),
+                                      ),
+                                      const SizedBox(
+                                        height: 20,
+                                      ),
+                                      InkWell(
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(
+                                                10.0), //this right here
+                                            color: const Color(0xFFFF5252),
                                           ),
-                                        ),
-                                      ],
-                                    )
-                                  : Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Lottie.asset(
-                                          'assets/lottie/failed.json',
-                                          height: 50,
-                                          frameRate: FrameRate(100),
-                                          repeat: false,
-                                        ),
-                                        SizedBox(
-                                          height: 20,
-                                        ),
-                                        const Text(
-                                          "No device found",
-                                          style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w600,
-                                            color: Color(0xFF000000),
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          height: 20,
-                                        ),
-                                        InkWell(
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                      10.0), //this right here
-                                              color: const Color(0xFFFF5252),
-                                            ),
-                                            height: 30,
-                                            width: 100,
-                                            alignment: Alignment.center,
-                                            child: const Text(
-                                              'Try again',
-                                              style: TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.w500,
-                                                color: Color(0xFFFFFFFF),
-                                              ),
+                                          height: 30,
+                                          width: 100,
+                                          alignment: Alignment.center,
+                                          child: const Text(
+                                            'Try again',
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w500,
+                                              color: Color(0xFFFFFFFF),
                                             ),
                                           ),
-                                          onTap: () async {
-                                            context
-                                                .read<HandshakeBloc>()
-                                                .add(SendHandShake());
-                                          },
                                         ),
-                                      ],
-                                    ),
-                        ),
+                                        onTap: () async {
+                                          context
+                                              .read<HandshakeBloc>()
+                                              .add(SendHandShake());
+                                        },
+                                      ),
+                                    ],
+                                  ),
                       ),
                     ),
                   ),
