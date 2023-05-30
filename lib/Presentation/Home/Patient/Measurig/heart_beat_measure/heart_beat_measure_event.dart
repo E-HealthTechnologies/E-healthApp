@@ -7,3 +7,13 @@ class SendHeartBeatMeasureRequest extends HeartBeatMeasureEvent {
   @override
   List<Object> get props => [];
 }
+
+class DeviceCOnnectionFailed extends HeartBeatMeasureEvent {
+  @override
+  List<Object> get props => [];
+}
+
+class DeviceConnectionSucceed extends HeartBeatMeasureEvent {
+  @override
+  List<Object> get props => [];
+}

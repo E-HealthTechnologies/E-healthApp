@@ -1,15 +1,13 @@
 import 'package:e_health/Presentation/Widgets/handshake_diag/handshake_diag_bloc.dart';
 import 'package:e_health/Presentation/Widgets/handshake_diag/handshake_diag_event.dart';
 import 'package:e_health/Presentation/Widgets/handshake_diag/handshake_diag_states.dart';
-import 'package:e_health/Services/ehealth_module.dart';
 import 'package:flutter/material.dart';
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 
 class HandshakeDiag {
-  static void showDiag(BuildContext context) {
-    showDialog(
+  static Future showDiag(BuildContext context) async {
+    await showDialog(
         context: context,
         builder: (BuildContext context) {
           return BlocProvider(

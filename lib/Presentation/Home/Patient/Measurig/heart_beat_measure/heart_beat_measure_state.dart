@@ -18,6 +18,16 @@ class DeviceNotConnected extends HeartBeatMeasureState {
   List<Object> get props => [];
 }
 
+class DeviceConnected extends HeartBeatMeasureState {
+  @override
+  List<Object> get props => [];
+}
+
+class DeviceFailedToConnected extends HeartBeatMeasureState {
+  @override
+  List<Object> get props => [];
+}
+
 class HeartBeatMeasureMeassureError extends HeartBeatMeasureState {
   @override
   List<Object> get props => [];
@@ -28,8 +38,18 @@ class HeartBeatMeasureConnectionError extends HeartBeatMeasureState {
   List<Object> get props => [];
 }
 
+class HeartBeatMeasureWaitingFinger extends HeartBeatMeasureState {
+  @override
+  List<Object> get props => [];
+}
+
+class HeartBeatMeasureStarted extends HeartBeatMeasureState {
+  @override
+  List<Object> get props => [];
+}
+
 class GotHeartBeatMeasureRespence extends HeartBeatMeasureState {
-  HeartBeatResault heartBeatResult;
+  final HeartBeatResult heartBeatResult;
 
   GotHeartBeatMeasureRespence(this.heartBeatResult);
   @override
