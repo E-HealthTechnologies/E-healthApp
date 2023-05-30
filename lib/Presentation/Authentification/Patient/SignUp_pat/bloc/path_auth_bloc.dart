@@ -67,7 +67,6 @@ class PatSignUpBloc extends Bloc<PatSignUpEvent, PatSignUpState> {
   }
 
   FutureOr<void> _patSignBloodEvent(
-      //nothing
       PatSignBloodEvent event,
       Emitter<PatSignUpState> emit) {
     emit(state.copyWith(blood: event.blood));

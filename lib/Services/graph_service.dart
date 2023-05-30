@@ -8,7 +8,7 @@ class GraphService {
   static List<GlucoseTimedData> glucoDayData(
       {required TimedData bigList, required DateTime dateTime}) {
     List<GlucoseTimedData> dayList = [];
-    for (int i = 0; i < bigList.glucose.length; i++) {
+    for (int i = 0 ; i < bigList.glucose.length ; i++) {
       if (bigList.glucose[i].timeStamp.day == dateTime.day &&
           bigList.glucose[i].timeStamp.month == dateTime.month &&
           bigList.glucose[i].timeStamp.year == dateTime.year) {

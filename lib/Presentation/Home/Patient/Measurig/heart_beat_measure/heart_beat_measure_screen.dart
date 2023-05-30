@@ -14,7 +14,8 @@ import 'package:dashed_circular_progress_bar/dashed_circular_progress_bar.dart';
 import 'dart:math' as math;
 
 class HeartBeatMeasureScreen extends StatelessWidget {
-  HeartBeatMeasureScreen({super.key});
+  HeartBeatMeasureScreen({required this.uid});
+  final String uid;
   TextStyle noResultTextStyle = TextStyle(
       fontSize: 65.sp, color: Color(0x3F0F0F0F), fontWeight: FontWeight.w100);
   TextStyle reesultTextStyle = TextStyle(
@@ -27,7 +28,6 @@ class HeartBeatMeasureScreen extends StatelessWidget {
         builder: (context, state) {
           if (state is DeviceNotConnected) {
             WidgetsBinding.instance.addPostFrameCallback((_) async {
-              // Add Your Code here.
               await HandshakeDiag.showDiag(context);
               if (EhealthModule.deviceAddr == null)
                 context
@@ -42,7 +42,7 @@ class HeartBeatMeasureScreen extends StatelessWidget {
           return Padding(
             padding: EdgeInsets.all(8.0),
             child: Container(
-              height: 700,
+              // height: 700,
               width: MediaQuery.of(context).size.width - 16,
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -50,15 +50,12 @@ class HeartBeatMeasureScreen extends StatelessWidget {
               ),
               padding: EdgeInsets.all(8.sp),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(
-                      // height: 40.sp,
-                      ),
-                  SizedBox(
-                    height: 300,
-                    width: 300,
+                    height: 300.sp,
+                    width: 300.sp,
                     child: Stack(
                       children: [
                         Transform.rotate(
@@ -115,14 +112,11 @@ class HeartBeatMeasureScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SizedBox(
-                    height: 50.sp,
-                  ),
                   ElevatedButton(
                     onPressed: () {
                       context
                           .read<HeartBeatMeasureBloc>()
-                          .add(SendHeartBeatMeasureRequest());
+                          .add(SendHeartBeatMeasureRequest(uid: uid));
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color(0xff3f51b5),
@@ -142,9 +136,6 @@ class HeartBeatMeasureScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 50.sp,
                   ),
                   state is DeviceFailedToConnected
                       ? RecErrorBox(errorText: "Failed to connect to Device")

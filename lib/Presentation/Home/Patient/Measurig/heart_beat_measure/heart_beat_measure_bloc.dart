@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:e_health/Presentation/Home/Models/device_respence.dart';
 import 'package:e_health/Presentation/Home/Patient/Measurig/heart_beat_measure/heart_beat_measure_event.dart';
 import 'package:e_health/Presentation/Home/Patient/Measurig/heart_beat_measure/heart_beat_measure_state.dart';
+import 'package:e_health/Services/AuthenticationServices.dart';
+import 'package:e_health/Services/StoreDataServices.dart';
 import 'package:e_health/Services/ehealth_module.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -44,6 +46,19 @@ class HeartBeatMeasureBloc
               }
             } else {
               emit(GotHeartBeatMeasureRespence(heartBeatResult));
+              StoreDataServices storeService = StoreDataServices();
+              Map<String, dynamic> data = {
+                'Date': DateTime.now(),
+                'Value': heartBeatResult.heartRate,
+              };
+              CreateAccountResult result = await storeService.uploadData(
+                  uid: event.uid, type: 'Heart beat', data: data);
+              if (result.success) {
+                log(heartBeatResult.heartRate.toString(), name: 'value is: ');
+                log(result.uid);
+              } else {
+                log(result.uid);
+              }
               run = false;
             }
           }

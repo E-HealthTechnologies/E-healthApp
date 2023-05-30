@@ -41,7 +41,7 @@ class _PatHomeScreenState extends State<GlucoMeasurmentScreen> {
                 TemperatureScreen(),
                 BloodPressureScreen(uid: user!.uid),
                 GlucoseScreen(),
-                HeartBeatMeasureScreen(),
+                HeartBeatMeasureScreen(uid:  user!.uid,),
               ],
 
               selectedTextStyle: const TextStyle(

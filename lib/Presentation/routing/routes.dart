@@ -1,5 +1,3 @@
-import 'package:e_health/Presentation/Authentification/Doctor/SignUp_doc/pages/information_screen.dart';
-import 'package:e_health/Presentation/Authentification/Doctor/SignUp_doc/screen/doctor_sign_up.dart';
 import 'package:e_health/Presentation/Authentification/Patient/Login_pat/screen/pat_login_screen.dart';
 import 'package:e_health/Presentation/Authentification/Patient/SignUp_pat/pages/choose_doctor_screen.dart';
 import 'package:e_health/Presentation/Authentification/Patient/SignUp_pat/pages/information_screen.dart';
@@ -29,9 +27,5 @@ class Routes {
         '/pat/signUp/info': ((context) => InformationScreen()),
         '/pat/signUp/chooseDoc': ((context) => ChooseDoctorScreen()),
         '/pat/Home': ((context) => PatHomeScreen()),
-
-        // '/doc/signIn': ((context) => PatLoginScreen()),
-        '/doc/signUp': ((context) => DocSignUpScreen()),
-        '/doc/signUp/info': ((context) => DocInformationScreen()),
       };
 }

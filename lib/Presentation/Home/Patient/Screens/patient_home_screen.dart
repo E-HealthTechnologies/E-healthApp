@@ -90,7 +90,7 @@ class _PatHomeScreenState extends State<PatHomeScreen> {
               appBar: AppBar(
                 elevation: 0,
                 backgroundColor: Color(0xfff5f5f5),
-                iconTheme: IconThemeData(color: Colors.black),
+                iconTheme: IconThemeData(color: Colors.white),
                 actions: <Widget>[
                   IconButton(
                     icon: Icon(
