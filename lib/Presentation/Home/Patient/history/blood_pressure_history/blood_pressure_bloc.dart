@@ -16,7 +16,7 @@ class BloodPressureHistoryBloc
     on<BloodPressureLoadData>((event, emit) async {
       List<BloodPressureTimedData> smallList = [];
 
-      emit(BloodPressureLoadingState());
+      // emit(BloodPressureLoadingState());
       List<Map<String, dynamic>> data;
       TimedData timedData;
       GetDataServices service = GetDataServices();

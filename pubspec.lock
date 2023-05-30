@@ -161,6 +161,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.0.4"
+  dashed_circular_progress_bar:
+    dependency: "direct dev"
+    description:
+      name: dashed_circular_progress_bar
+      sha256: "067bd0a11ff04c70ba68589f8a248565971b478423721a2b70a6b476e27a77f0"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.4"
   equatable:
     dependency: "direct dev"
     description:

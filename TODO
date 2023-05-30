@@ -1,4 +1,5 @@
-graphs screen:
+
+Patient app:
     history screen:
         re arrange data (day, month, week):
             ✔ data from string @done(23-05-16 17:02)
@@ -12,3 +13,25 @@ graphs screen:
         ☐ gluco
         ☐ temperature
         ☐ heart beat
+
+
+    ☐ settings
+    ☐ drawer options
+
+    theme:
+        ☐ textStyle
+        ☐ colors
+
+
+Doctor web:
+    ☐ 
+
+Hardware:
+    measure:
+         ☐ heartbeat
+         ☐ blood pressure
+         ☐ glucose
+         ☐ temperature
+
+    ☐ change to tcp
+    ☐ add LEDs 

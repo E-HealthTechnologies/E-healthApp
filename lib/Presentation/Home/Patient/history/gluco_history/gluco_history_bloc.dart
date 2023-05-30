@@ -13,7 +13,6 @@ class GlucoHistoryBloc extends Bloc<GlucoHistoryEvent, GlucoHistoryState> {
     on<GlucoLoadData>((event, emit) async {
       List<GlucoseTimedData> smallList = [];
 
-      emit(GlucoLoadingState());
       List<Map<String, dynamic>> data;
       TimedData timedData;
       GetDataServices service = GetDataServices();

@@ -63,7 +63,8 @@ class _HeartBeatHistoryScreenState extends State<HeartBeatHistoryScreen> {
                           height: 70.sp,
                           frameRate: FrameRate(100),
                           repeat: false,
-                        ))
+                        ),
+                      )
                     : Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,

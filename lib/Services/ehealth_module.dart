@@ -10,7 +10,7 @@ class EhealthModule {
   static InternetAddress? deviceAddr;
   EhealthModule.__();
   static const int bloodPressureTimeout = 5; //in seconds
-  static const int heartBeatTimeout = 5; //in seconds
+  static const int heartBeatTimeout = 20; //in seconds
   static const int handshakeTimeout = 5; //in seconds
   static const int temperatureTimeout = 5; //in seconds
   static const int networkInfoConfTimeout = 5; //in seconds
@@ -22,6 +22,9 @@ class EhealthModule {
   static const int notEhealthPacket = -4;
   static const int unhandeledOpCode = -5;
 
+  //
+  static UDP? sender;
+  //
   static Future<bool> sendNetworkInfo(
       String netwokSSID, String networkPwd) async {
     UDP sender;
@@ -165,41 +168,58 @@ class EhealthModule {
     return result;
   }
 
-  static Future<HeartBeatResault> getHeartBeat() async {
-    UDP sender;
-    bool gotResult = false;
-    HeartBeatResault result = HeartBeatResault(heartRate: -1);
+  static Future<int> sendHeartBeatRequest() async {
     log('Sending Heart Beat request');
     if (deviceId == null || deviceAddr == null) {
       log('device Not connected');
-      result.heartRate = deviceNotConnected;
-      return result;
+      return deviceNotConnected;
     }
     Uint8List packet = Uint8List(14);
     packet.setAll(0, 'E-Health\0'.codeUnits);
-    packet.setAll(9, [0x0034]);
+    packet.setAll(9, [0x00, 0x34]);
     packet.setAll(12, [0x00]);
-    sender = await UDP.bind(Endpoint.any(port: const Port(0)));
 
-    await sender.send(
-        packet, Endpoint.unicast(deviceAddr, port: const Port(2409)));
-    sender.asStream().listen((event) {
+    sender = await UDP.bind(Endpoint.any(port: const Port(2409)));
+
+    await sender!
+        .send(packet, Endpoint.unicast(deviceAddr, port: const Port(2409)));
+
+    return 0;
+  }
+
+  static Future<HeartBeatResult> decHeartBeatRespence() async {
+    bool gotResult = false;
+    HeartBeatResult result =
+        HeartBeatResult(heartRate: -1, msgType: MsgType.state);
+    sender = await UDP.bind(Endpoint.any(port: const Port(2409)));
+
+    sender!.asStream().listen((event) {
       if (event != null) {
+        log('Recieved data');
         int opCode = checkOpcode(event.data);
         if (opCode != -1) {
           switch (opCode) {
             case 0x3401:
-              if (event.data.length < 14) {
+              if (event.data.length < 12) {
                 log('Not heart beat respence');
               } else {
                 gotResult = true;
-                result = HeartBeatResault(heartRate: event.data[11]);
+                result = HeartBeatResult(
+                    heartRate: event.data[11], msgType: MsgType.result);
               }
+              break;
+
+            case 0x3402:
+              gotResult = true;
+              result = HeartBeatResult(
+                  heartRate: event.data[11], msgType: MsgType.state);
               break;
 
             default:
               log('unhandeled opCode');
-              result = HeartBeatResault(heartRate: unhandeledOpCode);
+              log(opCode.toString());
+              result = HeartBeatResult(
+                  heartRate: unhandeledOpCode, msgType: MsgType.state);
               break;
           }
         }
@@ -209,8 +229,12 @@ class EhealthModule {
     while (!gotResult && loop < (10 * heartBeatTimeout)) {
       await Future.delayed(const Duration(milliseconds: 100));
       loop++;
+      if (loop == (10 * heartBeatTimeout)) {
+        result.heartRate = HeartBeatResult.bpmFailed;
+        log('listeing failed');
+      }
     }
-    sender.close();
+    sender?.close();
     log('Done listeing');
     return result;
   }
@@ -331,6 +355,6 @@ class EhealthModule {
       log('Not E-Health packet: Packet too short');
       return -1;
     }
-    return ((recvBuffer[10] << 7) | recvBuffer[9]);
+    return ((recvBuffer[10] << 8) | recvBuffer[9]);
   }
 }
