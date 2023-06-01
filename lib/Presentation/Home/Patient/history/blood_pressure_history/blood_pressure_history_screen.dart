@@ -64,7 +64,7 @@ class _BloodPressureHistoryScreenState
                         'assets/lottie/loading-green.json',
                         height: 70.sp,
                         frameRate: FrameRate(100),
-                        repeat: false,
+                        repeat: true,
                       ),
                     )
                   : Column(

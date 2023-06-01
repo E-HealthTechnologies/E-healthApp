@@ -39,12 +39,18 @@ class HeartBeatResult {
   });
 }
 
-class TemperatureResault {
-  int temperatureFraction;
-  int temperatureRational;
-  TemperatureResault({
-    required this.temperatureFraction,
-    required this.temperatureRational,
+class TemperatureResult {
+  static const tmpStarted = 0;
+  static const tmpAborted = 2;
+  static const tmpDone = 3;
+  static const tmpFailed = 4;
+  int temperatureFrac;
+  int temperatureInt;
+  MsgType msgType;
+  TemperatureResult({
+    required this.temperatureFrac,
+    required this.temperatureInt,
+    required this.msgType,
   });
 }
 

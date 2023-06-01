@@ -1,6 +1,6 @@
 import 'package:e_health/Presentation/Home/Patient/Measurig/Screens/blood_pressure_measuring.dart';
 import 'package:e_health/Presentation/Home/Patient/Measurig/Screens/glucose_measuring_screen.dart';
-import 'package:e_health/Presentation/Home/Patient/Measurig/Screens/tempuratue_measuring_screen.dart';
+import 'package:e_health/Presentation/Home/Patient/Measurig/temperature_measure/temperature_measure_screen.dart';
 import 'package:e_health/Presentation/Home/Patient/Measurig/heart_beat_measure/heart_beat_measure_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -38,7 +38,7 @@ class _PatHomeScreenState extends State<GlucoMeasurmentScreen> {
               color: Color(0x5F49CAAE),
               // color: Theme.of(context).colorScheme.secondary,
               children: [
-                TemperatureScreen(),
+                TemperatureMeasureScreen(),
                 BloodPressureScreen(uid: user!.uid),
                 GlucoseScreen(),
                 HeartBeatMeasureScreen(),

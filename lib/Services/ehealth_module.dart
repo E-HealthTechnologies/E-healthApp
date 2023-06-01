@@ -103,6 +103,9 @@ class EhealthModule {
     int loop = 0;
     while (!gotResult && loop < (10 * handshakeTimeout)) {
       await Future.delayed(const Duration(milliseconds: 100));
+      if (loop % 10 == 0 && loop != 0) {
+        await sender.send(packet, Endpoint.broadcast(port: const Port(2409)));
+      }
       loop++;
     }
     sender.close();
@@ -239,48 +242,64 @@ class EhealthModule {
     return result;
   }
 
-  static Future<TemperatureResault> getTemperature() async {
-    UDP sender;
-    bool gotResult = false;
-    TemperatureResault result = TemperatureResault(
-        temperatureFraction: deviceNotConnected,
-        temperatureRational: deviceNotConnected);
-    log('Sending Heart Beat request');
+  static Future<int> sendTemperatureRequest() async {
+    log('Sending Temperature request');
     if (deviceId == null || deviceAddr == null) {
       log('device Not connected');
-      result.temperatureFraction = deviceNotConnected;
-      result.temperatureRational = deviceNotConnected;
-      return result;
+      return deviceNotConnected;
     }
     Uint8List packet = Uint8List(14);
     packet.setAll(0, 'E-Health\0'.codeUnits);
-    packet.setAll(9, [0x0033]);
+    packet.setAll(9, [0x00, 0x33]);
     packet.setAll(12, [0x00]);
-    sender = await UDP.bind(Endpoint.any(port: const Port(0)));
 
-    await sender.send(
-        packet, Endpoint.unicast(deviceAddr, port: const Port(2409)));
-    sender.asStream().listen((event) {
+    sender = await UDP.bind(Endpoint.any(port: const Port(2409)));
+
+    await sender!
+        .send(packet, Endpoint.unicast(deviceAddr, port: const Port(2409)));
+
+    return 0;
+  }
+
+  static Future<TemperatureResult> decTemperatureRespence() async {
+    bool gotResult = false;
+    TemperatureResult result = TemperatureResult(
+        temperatureFrac: -1, temperatureInt: -1, msgType: MsgType.state);
+    sender = await UDP.bind(Endpoint.any(port: const Port(2409)));
+
+    sender!.asStream().listen((event) {
       if (event != null) {
+        log('Recieved data');
         int opCode = checkOpcode(event.data);
         if (opCode != -1) {
           switch (opCode) {
-            case 0x3301:
-              if (event.data.length < 14) {
+            case 0x3302:
+              if (event.data.length < 12) {
                 log('Not temperature respence');
               } else {
                 gotResult = true;
-                result = TemperatureResault(
-                    temperatureFraction: event.data[11],
-                    temperatureRational: event.data[12]);
+                result = TemperatureResult(
+                    temperatureInt: event.data[11],
+                    temperatureFrac: event.data[12],
+                    msgType: MsgType.result);
               }
+              break;
+
+            case 0x3301:
+              gotResult = true;
+              result = TemperatureResult(
+                  temperatureInt: event.data[11],
+                  temperatureFrac: event.data[12],
+                  msgType: MsgType.state);
               break;
 
             default:
               log('unhandeled opCode');
-              result = TemperatureResault(
-                  temperatureFraction: unhandeledOpCode,
-                  temperatureRational: unhandeledOpCode);
+              log(opCode.toString());
+              result = TemperatureResult(
+                  temperatureInt: unhandeledOpCode,
+                  temperatureFrac: unhandeledOpCode,
+                  msgType: MsgType.state);
               break;
           }
         }
@@ -290,8 +309,13 @@ class EhealthModule {
     while (!gotResult && loop < (10 * heartBeatTimeout)) {
       await Future.delayed(const Duration(milliseconds: 100));
       loop++;
+      if (loop == (10 * heartBeatTimeout)) {
+        result.temperatureFrac = TemperatureResult.tmpFailed;
+        result.temperatureInt = TemperatureResult.tmpFailed;
+        log('listening failed');
+      }
     }
-    sender.close();
+    sender?.close();
     log('Done listeing');
     return result;
   }
