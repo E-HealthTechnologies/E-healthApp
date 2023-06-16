@@ -88,7 +88,7 @@ class TemperatureMeasureScreen extends StatelessWidget {
                               ),
                               Lottie.asset(
                                 'assets/lottie/thermometer-check.json',
-                                height: 45.sp,
+                                height: 50.sp,
                                 frameRate: FrameRate(60),
                               ),
                               SizedBox(
@@ -143,10 +143,16 @@ class TemperatureMeasureScreen extends StatelessWidget {
                       ? RecErrorBox(errorText: "Failed to connect to Device")
                       : state is TemperatureMeasureMeassureError
                           ? RecErrorBox(errorText: "Measurment error")
-                          : RecErrorBox(
-                              errorText: '',
-                              boxColor: Color(0x00),
-                            ),
+                          : state is TemperatureMeasureStarted
+                              ? RecErrorBox(
+                                  errorText:
+                                      "Please hold the temperature sensor",
+                                  boxColor: Colors.amber,
+                                )
+                              : RecErrorBox(
+                                  errorText: '',
+                                  boxColor: Color(0x00),
+                                ),
                 ],
               ),
             ),

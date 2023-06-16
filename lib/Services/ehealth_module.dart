@@ -9,7 +9,7 @@ class EhealthModule {
   static String? deviceId;
   static InternetAddress? deviceAddr;
   EhealthModule.__();
-  static const int bloodPressureTimeout = 5; //in seconds
+  static const int bloodPressureTimeout = 40; //in seconds
   static const int heartBeatTimeout = 20; //in seconds
   static const int handshakeTimeout = 5; //in seconds
   static const int temperatureTimeout = 5; //in seconds
@@ -111,64 +111,6 @@ class EhealthModule {
     sender.close();
     log('Done listeing');
     return handshakeDone;
-  }
-
-  static Future<BloodPressureResult> getBloodPressure() async {
-    UDP sender;
-    bool gotResult = false;
-    BloodPressureResult result =
-        BloodPressureResult(systolicSPressure: -1, diastolicPressure: -1);
-    log('Sending Blood pressure request');
-    if (deviceId == null || deviceAddr == null) {
-      log('device Not connected');
-      result.diastolicPressure = deviceNotConnected;
-      return result;
-    }
-    Uint8List packet = Uint8List(14);
-    packet.setAll(0, 'E-Health\0'.codeUnits);
-    packet.setAll(9, [0x00, 0x31]);
-    packet.setAll(12, [0x00]);
-    sender = await UDP.bind(Endpoint.any(port: const Port(0)));
-
-    await sender.send(
-        packet, Endpoint.unicast(deviceAddr, port: const Port(2409)));
-    sender.asStream().listen((event) {
-      if (event != null) {
-        int opCode = checkOpcode(event.data);
-        if (opCode != -1) {
-          switch (opCode) {
-            case 0x3101:
-              if (event.data.length < 14) {
-                log('Not blood pressure respence');
-              } else {
-                gotResult = true;
-                result = BloodPressureResult(
-                    systolicSPressure: event.data[11],
-                    diastolicPressure: event.data[12]);
-              }
-              break;
-            default:
-              log('unhandeled opCode');
-              result = BloodPressureResult(
-                  systolicSPressure: unhandeledOpCode,
-                  diastolicPressure: unhandeledOpCode);
-              break;
-          }
-        } else {
-          result = BloodPressureResult(
-              systolicSPressure: notEhealthPacket,
-              diastolicPressure: notEhealthPacket);
-        }
-      }
-    });
-    int loop = 0;
-    while (!gotResult && loop < (10 * bloodPressureTimeout)) {
-      await Future.delayed(const Duration(milliseconds: 100));
-      loop++;
-    }
-    sender.close();
-    log('Done listeing');
-    return result;
   }
 
   static Future<int> sendHeartBeatRequest() async {
@@ -313,6 +255,95 @@ class EhealthModule {
         result.temperatureFrac = TemperatureResult.tmpFailed;
         result.temperatureInt = TemperatureResult.tmpFailed;
         log('listening failed');
+      }
+    }
+    sender?.close();
+    log('Done listeing');
+    return result;
+  }
+
+  static Future<int> sendBloodPressureRequest() async {
+    log('Sending Heart Beat request');
+    if (deviceId == null || deviceAddr == null) {
+      log('device Not connected');
+      return deviceNotConnected;
+    }
+    Uint8List packet = Uint8List(14);
+    packet.setAll(0, 'E-Health\0'.codeUnits);
+    packet.setAll(9, [0x00, 0x31]);
+    packet.setAll(12, [0x00]);
+
+    sender = await UDP.bind(Endpoint.any(port: const Port(2409)));
+
+    await sender!
+        .send(packet, Endpoint.unicast(deviceAddr, port: const Port(2409)));
+
+    return 0;
+  }
+
+  static Future<BloodPressureResult> decBloodPressureRespence() async {
+    bool gotResult = false;
+    BloodPressureResult result = BloodPressureResult(
+        diastolicPressure: -1,
+        heartBeat: -1,
+        systolicSPressure: -1,
+        msgType: MsgType.state);
+    sender = await UDP.bind(Endpoint.any(port: const Port(2409)));
+
+    sender!.asStream().listen((event) {
+      if (event != null) {
+        log('Recieved data');
+        log(event.data.toString());
+        int opCode = checkOpcode(event.data);
+        if (opCode != -1) {
+          switch (opCode) {
+            case 0x3102:
+              if (event.data.length < 12) {
+                log('Not Blood Pressure respence');
+              } else {
+                log('sssssssssssssssssssss');
+                gotResult = true;
+                result = BloodPressureResult(
+                    systolicSPressure: event.data[11],
+                    diastolicPressure: event.data[12],
+                    heartBeat: event.data[13],
+                    msgType: MsgType.result);
+              }
+              break;
+
+            case 0x3101:
+              gotResult = true;
+              result = BloodPressureResult(
+                  systolicSPressure: event.data[11],
+                  diastolicPressure: event.data[11],
+                  heartBeat: event.data[11],
+                  msgType: MsgType.state);
+              break;
+
+            default:
+              log('unhandeled opCode');
+              log(opCode.toString());
+              result = result = BloodPressureResult(
+                  systolicSPressure: unhandeledOpCode,
+                  diastolicPressure: unhandeledOpCode,
+                  heartBeat: unhandeledOpCode,
+                  msgType: MsgType.state);
+              break;
+          }
+        }
+      }
+    });
+    int loop = 0;
+    while (!gotResult && loop < (10 * bloodPressureTimeout)) {
+      await Future.delayed(const Duration(milliseconds: 100));
+      loop++;
+      if (loop == (10 * heartBeatTimeout)) {
+        result = BloodPressureResult(
+            systolicSPressure: BloodPressureResult.bpFailed,
+            diastolicPressure: BloodPressureResult.bpFailed,
+            heartBeat: BloodPressureResult.bpFailed,
+            msgType: MsgType.state);
+        log('listeing failed');
       }
     }
     sender?.close();

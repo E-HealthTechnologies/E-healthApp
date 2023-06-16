@@ -16,12 +16,26 @@ class HandShakeRespence {
 }
 
 class BloodPressureResult {
+  static const bpOn = 0;
+  static const bpChk = 1;
+  static const bpWai = 2;
+  static const bbInf = 3;
+  static const bpDef = 4;
+  static const bpEXH = 5;
+  static const bpDone = 7;
+  static const bpFailed = 8;
+  static const bpAborted = 9;
+
   int systolicSPressure;
   int diastolicPressure;
+  int heartBeat;
+  MsgType msgType;
 
   BloodPressureResult({
     required this.systolicSPressure,
     required this.diastolicPressure,
+    required this.heartBeat,
+    required this.msgType,
   });
 }
 

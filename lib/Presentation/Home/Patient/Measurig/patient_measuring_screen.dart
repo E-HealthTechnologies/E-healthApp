@@ -1,4 +1,4 @@
-import 'package:e_health/Presentation/Home/Patient/Measurig/Screens/blood_pressure_measuring.dart';
+import 'package:e_health/Presentation/Home/Patient/Measurig/blood_pressure_measure/bp_measure_screen.dart';
 import 'package:e_health/Presentation/Home/Patient/Measurig/Screens/glucose_measuring_screen.dart';
 import 'package:e_health/Presentation/Home/Patient/Measurig/temperature_measure/temperature_measure_screen.dart';
 import 'package:e_health/Presentation/Home/Patient/Measurig/heart_beat_measure/heart_beat_measure_screen.dart';
@@ -39,7 +39,7 @@ class _PatHomeScreenState extends State<GlucoMeasurmentScreen> {
               // color: Theme.of(context).colorScheme.secondary,
               children: [
                 TemperatureMeasureScreen(),
-                BloodPressureScreen(uid: user!.uid),
+                BloodPressureMeasureScreen(),
                 GlucoseScreen(),
                 HeartBeatMeasureScreen(),
               ],
