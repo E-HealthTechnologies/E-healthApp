@@ -35,3 +35,11 @@ Hardware:
 
     ☐ change to tcp
     ☐ add LEDs 
+
+screenshots:
+    ✔ blood pressure measure @done(23-06-16 19:22)
+    ✔ failed to connect @done(23-06-16 18:34)
+    ✔ connected @done(23-06-16 18:34)
+    ✔ glucose @done(23-06-16 19:22)
+    ✔ heart beat @done(23-06-16 20:13)
+    ✔ temperature @done(23-06-16 20:13)
